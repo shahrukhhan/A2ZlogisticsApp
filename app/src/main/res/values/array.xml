@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerItems">
+        <item>MODE</item>
+        <item>IMPS</item>
+        <item>RTGS</item>
+        <item>NEFT</item>
+        <item>UPI</item>
+        <item>Cash Deposit</item>
+        <item>Cheque</item>
+    </string-array>
+</resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/select_language"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="24dp"
+        android:textColor="@color/appThemeBlue"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginStart="44dp">
+        
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radio_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:textColor="@color/appThemeBlue"
+            android:checked="true"
+            android:textSize="20sp"
+            app:buttonTint="@color/appThemeBlue"/>
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radio_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hindi"
+            android:textColor="@color/appThemeBlue"
+            android:checked="false"
+            android:textSize="20sp"
+            app:buttonTint="@color/appThemeBlue"/>
+    </RadioGroup>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/language_button"
+        android:layout_width="84dp"
+        android:layout_height="52dp"
+        android:layout_gravity="end"
+        android:layout_margin="24dp"
+        android:clickable="true"
+        android:background="@drawable/mybutton"
+        android:text="@string/ok"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+</LinearLayout>
