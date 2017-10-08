@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shahrukhkhan.freelance.Fragments.TransactionFragment">
+    tools:context="com.example.shahrukhkhan.freelance.fragments.TransactionFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/card_refresh"

@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Database;
+package com.example.shahrukhkhan.freelance.database;
 
 /**
  * Created by Shahrukh Khan on 8/19/2017.
@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 
-import com.example.shahrukhkhan.freelance.Model.TransactionData;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
+import com.example.shahrukhkhan.freelance.model.TransactionData;
+import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

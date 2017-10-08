@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Adapter;
+package com.example.shahrukhkhan.freelance.adapter;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.shahrukhkhan.freelance.Activities.TransactionActivity;
-import com.example.shahrukhkhan.freelance.Interfaces.ListClickListener;
-import com.example.shahrukhkhan.freelance.Model.TransactionData;
+import com.example.shahrukhkhan.freelance.activities.TransactionActivity;
+import com.example.shahrukhkhan.freelance.interfaces.ListClickListener;
+import com.example.shahrukhkhan.freelance.model.TransactionData;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

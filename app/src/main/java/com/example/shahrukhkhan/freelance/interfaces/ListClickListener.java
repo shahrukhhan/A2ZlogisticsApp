@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Interfaces;
+package com.example.shahrukhkhan.freelance.interfaces;
 
 /**
  * Created by Shahrukh Khan on 8/15/2017.

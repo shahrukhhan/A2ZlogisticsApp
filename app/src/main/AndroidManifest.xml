@@ -27,32 +27,33 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:configChanges="locale"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CardTest" />
         <activity
-            android:name=".Activities.CardActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="locale"
-            android:launchMode="singleTop"/>
-        <activity
-            android:name=".Activities.TransactionActivity"
-            android:label="@string/title_activity_transaction_"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"
+            android:name=".activities.CardActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.UserTransactionActivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTop"
+            android:name=".activities.TransactionActivity"
             android:configChanges="locale"
-            android:screenOrientation="portrait"></activity>
+            android:label="@string/title_activity_transaction_"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.UserTransactionActivity"
+            android:configChanges="locale"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

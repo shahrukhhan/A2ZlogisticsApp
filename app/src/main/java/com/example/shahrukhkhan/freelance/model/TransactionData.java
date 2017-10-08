@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Model;
+package com.example.shahrukhkhan.freelance.model;
 
 /**
  * Created by Shahrukh Khan on 8/19/2017.

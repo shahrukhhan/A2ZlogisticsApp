@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Adapter;
+package com.example.shahrukhkhan.freelance.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.shahrukhkhan.freelance.Activities.UserTransactionActivity;
-import com.example.shahrukhkhan.freelance.Model.UserTransactionData;
+import com.example.shahrukhkhan.freelance.activities.UserTransactionActivity;
+import com.example.shahrukhkhan.freelance.model.UserTransactionData;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

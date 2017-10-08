@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.shahrukhkhan.freelance.Activities.TransactionActivity">
+    tools:context="com.example.shahrukhkhan.freelance.activities.TransactionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -19,8 +19,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/white"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:theme="@style/ToolbarColoredBackArrow"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
         </android.support.v7.widget.Toolbar>
@@ -29,16 +30,20 @@
             android:id="@+id/card_usage_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/appThemeBlue"
             android:textSize="16sp"
-            android:text="IOCL - 1223 4534 4334 2332 | RJ14C83345"
             android:gravity="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:background="@android:color/white"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:tabTextColor="@color/appThemeBlue"
+            android:background="@android:color/white"
+            app:tabSelectedTextColor="@color/appThemeBlue"
+            app:tabIndicatorColor="@color/appThemeBlue"/>
 
     </android.support.design.widget.AppBarLayout>
 

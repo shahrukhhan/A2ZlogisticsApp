@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Activities;
+package com.example.shahrukhkhan.freelance.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,16 +22,16 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.shahrukhkhan.freelance.Adapter.UserTransactionAdapter;
-import com.example.shahrukhkhan.freelance.Database.LocalDB;
-import com.example.shahrukhkhan.freelance.Dialogs.CustomDialogClass;
-import com.example.shahrukhkhan.freelance.Dialogs.PasswordDialogClass;
-import com.example.shahrukhkhan.freelance.Dialogs.PaymentDialogClass;
+import com.example.shahrukhkhan.freelance.adapter.UserTransactionAdapter;
+import com.example.shahrukhkhan.freelance.database.LocalDB;
+import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
+import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
+import com.example.shahrukhkhan.freelance.dialogs.PaymentDialogClass;
 import com.example.shahrukhkhan.freelance.LoginActivity;
-import com.example.shahrukhkhan.freelance.Model.UserTransactionData;
+import com.example.shahrukhkhan.freelance.model.UserTransactionData;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
-import com.example.shahrukhkhan.freelance.Utils.MyVolley;
+import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,10 +53,12 @@ public class UserTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_transaction);
-        addPayment = (TextView) findViewById(R.id.add_payment);
+        addPayment = findViewById(R.id.add_payment);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        recyclerView = (RecyclerView) findViewById(R.id.transaction_recycler_view);
+        recyclerView = findViewById(R.id.transaction_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

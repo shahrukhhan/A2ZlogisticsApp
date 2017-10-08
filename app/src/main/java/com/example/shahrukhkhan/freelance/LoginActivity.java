@@ -23,9 +23,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.example.shahrukhkhan.freelance.Dialogs.CustomDialogClass;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
-import com.example.shahrukhkhan.freelance.Utils.MyVolley;
+import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
+import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinnerItems">
-        <item>MODE</item>
+        <item>Mode</item>
         <item>IMPS</item>
         <item>RTGS</item>
         <item>NEFT</item>

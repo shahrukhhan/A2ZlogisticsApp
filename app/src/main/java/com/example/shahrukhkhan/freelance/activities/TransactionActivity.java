@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Activities;
+package com.example.shahrukhkhan.freelance.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.shahrukhkhan.freelance.Database.LocalDB;
-import com.example.shahrukhkhan.freelance.Dialogs.CustomDialogClass;
-import com.example.shahrukhkhan.freelance.Dialogs.PasswordDialogClass;
-import com.example.shahrukhkhan.freelance.Fragments.TransactionFragment;
+import com.example.shahrukhkhan.freelance.database.LocalDB;
+import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
+import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
+import com.example.shahrukhkhan.freelance.fragments.TransactionFragment;
 import com.example.shahrukhkhan.freelance.LoginActivity;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.Constants;
 
 public class TransactionActivity extends AppCompatActivity {
 
@@ -38,7 +38,7 @@ public class TransactionActivity extends AppCompatActivity {
     private TransactionFragment transactionFragmentAll;
     private TransactionFragment transactionFragmentPaid;
     private TransactionFragment transactionFragmentRecharged;
-    private TextView cardUsageText,cardUsageBalance;
+    private TextView cardUsageText, cardUsageBalance;
     public String name, number, vehicle;
     public int activityType, balance;
 
@@ -51,7 +51,7 @@ public class TransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -61,18 +61,18 @@ public class TransactionActivity extends AppCompatActivity {
         vehicle = intent.getStringExtra("vehicle");
         balance = intent.getIntExtra("balance", 0);
         activityType = intent.getIntExtra(Constants.ACTIVITY_ID, 0);
-        cardUsageText = (TextView) findViewById(R.id.card_usage_text);
-        cardUsageBalance = (TextView) findViewById(R.id.txn_card_balance);
+        cardUsageText = findViewById(R.id.card_usage_text);
+        cardUsageBalance = findViewById(R.id.txn_card_balance);
         init();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -108,6 +108,10 @@ public class TransactionActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,6 +124,9 @@ public class TransactionActivity extends AppCompatActivity {
 
         int id = item.getItemId();
         switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.call_for_support:
                 break;
             case R.id.change_language:

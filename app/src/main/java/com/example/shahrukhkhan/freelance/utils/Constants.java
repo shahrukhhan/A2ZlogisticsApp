@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Utils;
+package com.example.shahrukhkhan.freelance.utils;
 
 /**
  * Created by Shahrukh Khan on 8/18/2017.

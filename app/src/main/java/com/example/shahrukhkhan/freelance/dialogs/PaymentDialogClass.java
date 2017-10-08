@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Dialogs;
+package com.example.shahrukhkhan.freelance.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -6,9 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,9 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
-import com.example.shahrukhkhan.freelance.Utils.MyVolley;
-import com.example.shahrukhkhan.freelance.Utils.Util;
+import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyVolley;
+import com.example.shahrukhkhan.freelance.utils.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,15 +31,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Shahrukh Khan on 9/27/2017.
+ * Created by Shahrukh Khan on 10/1/2017.
  */
 
-public class PasswordDialogClass extends Dialog implements View.OnClickListener {
-    private Activity c;
-    private EditText currPwd, newPwd, confirmPwd;
-    private AppCompatButton save, close;
+public class PaymentDialogClass extends Dialog implements View.OnClickListener {
 
-    public PasswordDialogClass(Activity a) {
+    public Activity c;
+    public Dialog d;
+    public AppCompatButton save;
+    public AppCompatButton close;
+    public AppCompatEditText amount, description;
+    public AppCompatSpinner mode;
+
+    public PaymentDialogClass(Activity a) {
         super(a);
         this.c = a;
     }
@@ -47,38 +52,42 @@ public class PasswordDialogClass extends Dialog implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.password_dialog);
-        currPwd = findViewById(R.id.current_password);
-        newPwd = findViewById(R.id.new_password);
-        confirmPwd = findViewById(R.id.confirm_password);
-        save = findViewById(R.id.password_save_button);
-        close = findViewById(R.id.password_close_button);
+        setContentView(R.layout.payment_dialog);
+        amount = findViewById(R.id.payment_amount);
+        mode = findViewById(R.id.payment_mode);
+        description = findViewById(R.id.payment_description);
+        save = findViewById(R.id.payment_save_button);
+        close = findViewById(R.id.payment_close_button);
         save.setOnClickListener(this);
         close.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.password_close_button) {
+        if (view.getId() == R.id.payment_close_button) {
             dismiss();
-        } else if(view.getId() == R.id.password_save_button) {
-            if (currPwd.getText().toString().equals("") || newPwd.getText().toString().equals("")
-                    || confirmPwd.getText().toString().equals("")) {
-                Toast.makeText(c.getApplicationContext(), "Field cannot be empty.", Toast.LENGTH_SHORT).show();
+        } else if (view.getId() == R.id.payment_save_button) {
+            if (amount.getText().toString().equals("") || Integer.parseInt(amount.getText().toString()) <= 0) {
+                Toast.makeText(c.getApplicationContext(), "Invalid Request.", Toast.LENGTH_SHORT).show();
+            } else if (mode.getSelectedItem().toString().equals("Mode")) {
+                Toast.makeText(c.getApplicationContext(), "Please Select Mode.", Toast.LENGTH_SHORT).show();
             } else {
                 makeRequest();
             }
         }
     }
 
-    public void makeRequest() {
-        String url = Constants.API_URL + "/api/GetUser";
+    private void makeRequest() {
+        String url = Constants.API_URL + "/api/AddUserRequest";
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c.getApplicationContext());
+        final SharedPreferences.Editor editor = preferences.edit();
         JSONObject body = new JSONObject();
         try {
-            body.put("OldPassword", currPwd.getText().toString());
-            body.put("NewPassword", newPwd.getText().toString());
-            body.put("ConfirmPassword", confirmPwd.getText().toString());
+            body.put("Username", preferences.getString(Constants.USERNAME, ""));
+            body.put("Amount", Integer.parseInt(amount.getText().toString()));
+            body.put("Name", preferences.getString(Constants.NAME, ""));
+            body.put("Mode", mode.getSelectedItem().toString());
+            body.put("Description", description.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -86,7 +95,7 @@ public class PasswordDialogClass extends Dialog implements View.OnClickListener 
             @Override
             public void onResponse(JSONObject response) {
                 dismiss();
-                Util.snackBarOnUIThread("Password Successfully Changed!", c, "#a4c639");
+                Util.snackBarOnUIThread("Request Successful!", c, "#a4c639");
             }
         }, new Response.ErrorListener() {
             @Override

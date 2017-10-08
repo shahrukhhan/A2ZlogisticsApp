@@ -18,12 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.shahrukhkhan.freelance.Database.LocalDB;
-import com.example.shahrukhkhan.freelance.Interfaces.ListClickListener;
-import com.example.shahrukhkhan.freelance.Model.CardData;
-import com.example.shahrukhkhan.freelance.Model.TransactionData;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
-import com.example.shahrukhkhan.freelance.Utils.MyVolley;
+import com.example.shahrukhkhan.freelance.database.LocalDB;
+import com.example.shahrukhkhan.freelance.interfaces.ListClickListener;
+import com.example.shahrukhkhan.freelance.model.CardData;
+import com.example.shahrukhkhan.freelance.model.TransactionData;
+import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;

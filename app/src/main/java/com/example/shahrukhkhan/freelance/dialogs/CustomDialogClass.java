@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Dialogs;
+package com.example.shahrukhkhan.freelance.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,9 +15,10 @@ import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.shahrukhkhan.freelance.LoginActivity;
 import com.example.shahrukhkhan.freelance.MainActivity;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.util.Locale;
 
@@ -76,7 +77,9 @@ public class CustomDialogClass extends Dialog implements View.OnClickListener {
                 dismiss();
                 c.finish();
             } else {
-                c.startActivity(c.getIntent());
+                Intent intent = new Intent(c, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                c.startActivity(intent);
                 dismiss();
             }
         }

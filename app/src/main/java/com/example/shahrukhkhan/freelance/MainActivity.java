@@ -22,14 +22,14 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.shahrukhkhan.freelance.Activities.CardActivity;
-import com.example.shahrukhkhan.freelance.Activities.TransactionActivity;
-import com.example.shahrukhkhan.freelance.Activities.UserTransactionActivity;
-import com.example.shahrukhkhan.freelance.Database.LocalDB;
-import com.example.shahrukhkhan.freelance.Dialogs.CustomDialogClass;
-import com.example.shahrukhkhan.freelance.Dialogs.PasswordDialogClass;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
-import com.example.shahrukhkhan.freelance.Utils.MyVolley;
+import com.example.shahrukhkhan.freelance.activities.CardActivity;
+import com.example.shahrukhkhan.freelance.activities.TransactionActivity;
+import com.example.shahrukhkhan.freelance.activities.UserTransactionActivity;
+import com.example.shahrukhkhan.freelance.database.LocalDB;
+import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
+import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
+import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
         else
             setLocale("hi");
         toolbar = findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mainBalance = findViewById(R.id.main_balance);
         rewardPoints = findViewById(R.id.reward_points);

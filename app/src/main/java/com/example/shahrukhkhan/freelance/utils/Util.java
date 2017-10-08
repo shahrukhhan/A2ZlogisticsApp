@@ -1,4 +1,4 @@
-package com.example.shahrukhkhan.freelance.Utils;
+package com.example.shahrukhkhan.freelance.utils;
 
 import android.app.Activity;
 import android.graphics.Color;
