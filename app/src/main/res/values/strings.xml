@@ -41,6 +41,8 @@
     <string name="amount">Amount</string>
     <string name="mode">Mode</string>
     <string name="description">Description</string>
+    <string name="description_hint">Bank - Acc. No.</string>
+    <string name="change_password_header">Change Password</string>
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm New Password</string>

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
     android:layout_height="350dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white">
 
@@ -38,7 +39,7 @@
 
     </LinearLayout>
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/card_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +47,8 @@
         android:layout_marginLeft="54dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="54dp"
+        app:backgroundTint="@color/appThemeBlue"
+        android:theme="@style/AppTheme"
         android:inputType="text" />
 
     <LinearLayout
@@ -72,7 +75,7 @@
 
     </LinearLayout>
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/registered_vehicle_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,6 +83,8 @@
         android:layout_marginLeft="54dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="54dp"
+        app:backgroundTint="@color/appThemeBlue"
+        android:theme="@style/AppTheme"
         android:inputType="text" />
 
     <LinearLayout
@@ -107,7 +112,7 @@
 
     </LinearLayout>
 
-    <EditText
+    <android.support.v7.widget.AppCompatEditText
         android:id="@+id/amount_to_recharge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,6 +120,8 @@
         android:layout_marginLeft="54dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="54dp"
+        app:backgroundTint="@color/appThemeBlue"
+        android:theme="@style/AppTheme"
         android:inputType="number" />
 
     <LinearLayout

@@ -1,11 +1,15 @@
 package com.example.shahrukhkhan.freelance;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mainBalance, rewardPoints;
     private Locale myLocale;
     private SharedPreferences preferences;
+    private static final int PERMISSIONS_REQUEST_CALL_PHONE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.call_for_support:
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            PERMISSIONS_REQUEST_CALL_PHONE);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:+917891088099"));
+                    startActivity(intent);
+                }
                 break;
             case R.id.change_language:
                 CustomDialogClass dialogClass = new CustomDialogClass(MainActivity.this);
@@ -100,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i("hello", response+"");
+                Log.i("hello", response + "");
                 try {
                     String balance = getResources().getString(R.string.main_balance_text) + response.getInt("Balance");
                     String discount = getResources().getString(R.string.reward_points_text) + response.getInt("Discount");
@@ -191,5 +205,24 @@ public class MainActivity extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:+917891088099"));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please give permission to make call", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }

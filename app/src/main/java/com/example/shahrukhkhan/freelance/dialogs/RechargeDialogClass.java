@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,10 +18,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.model.CardData;
 import com.example.shahrukhkhan.freelance.model.TransactionData;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 import com.example.shahrukhkhan.freelance.utils.Util;
@@ -43,7 +43,7 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
     public AppCompatButton save;
     public AppCompatButton close;
     public CardData cardData;
-    public EditText cardNo, registeredVehicle, amount;
+    public AppCompatEditText cardNo, registeredVehicle, amount;
 
     public RechargeDialogClass(Activity a, CardData cardData) {
         super(a);

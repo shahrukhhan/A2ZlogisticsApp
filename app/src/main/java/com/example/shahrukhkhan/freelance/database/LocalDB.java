@@ -14,7 +14,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 
 import com.example.shahrukhkhan.freelance.model.TransactionData;
-import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,13 +138,13 @@ public class LocalDB extends SQLiteOpenHelper {
         List<TransactionData> list = new ArrayList<>();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         String selectQuery = null;
-        if(type == ALL) {
+        if (type == ALL) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
                     + " LIKE '" + id + "' ORDER BY " + CARD_TIMESTAMP + " ASC";
-        } else if(type == PAID) {
+        } else if (type == PAID) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
                     + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Debit' ORDER BY " + CARD_TIMESTAMP + " ASC";
-        } else if(type == RECHARGED) {
+        } else if (type == RECHARGED) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
                     + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Credit' ORDER BY " + CARD_TIMESTAMP + " ASC";
         }
@@ -193,22 +192,19 @@ public class LocalDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<String> getPendingTransactionsId() {
+    public String getLatestTransactionDate() {
+        String date = null;
         SQLiteDatabase db = mInstance.getWritableDatabase();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        List<String> transactions = new ArrayList<>();
-        String selectQuery = "SELECT " + TRANSACTION_ID + " FROM " + TABLE_TRANSACTION + " WHERE " + USER_ID + " LIKE '"
-                + prefs.getString(Constants.USERNAME, "") + "' and " + CARD_STATUS + " = 2";
+        String selectQuery = "SELECT MAX(" + CARD_TIMESTAMP + ") FROM " + TABLE_TRANSACTION;
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
-            do {
-                String s = c.getString(c.getColumnIndex(TRANSACTION_ID));
-                transactions.add(s);
-            } while (c.moveToNext());
+            date = c.getString(c.getColumnIndex("MAX(CARD_TIMESTAMP)"));
         }
         c.close();
         db.close();
-        return transactions;
+        if (date == null)
+            date = "2017-01-01T00:00:00";
+        return date;
     }
 
     public void deleteTransactions() {
