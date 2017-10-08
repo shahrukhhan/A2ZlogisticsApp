@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Freelance</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_username">Please enter a valid Mobile Number</string>
+    <string name="empty_password">Please enter a valid Password</string>
+    <string name="network_error">Network Error</string>
+    <string name="server_error">Server Error</string>
+    <string name="error_incorrect_creds">अमान्य फोन नंबर या पासवर्ड</string>
+    <string name="bad_request">अनुरोध संसाधित नहीं किया जा सका</string>
+    <string name="username_placeholder">पंजीकृत मोबाइल नंबर</string>
+    <string name="password_placeholder">पासवर्ड</string>
+    <string name="login">लॉग इन करें</string>
+    <string name="logout">लोग आउट</string>
+    <string name="select_language">भाषा चुनिए</string>
+    <string name="english">English</string>
+    <string name="hindi">हिंदी</string>
+    <string name="ok">OK</string>
+    <string name="recharge_request">रिचार्ज करे</string>
+    <string name="payments">भुगतान</string>
+    <string name="account_balance">खाते में शेष</string>
+    <string name="cards">कार्ड</string>
+    <string name="cards_usage">कार्ड उपयोग</string>
+    <string name="card_balance">कार्ड बैलेंस</string>
+    <string name="latest_transaction">नवीनतम लेनदेन</string>
+    <string name="card_no">कार्ड नंबर</string>
+    <string name="registered_vehicle_no">पंजीकृत वाहन संख्या</string>
+    <string name="amount_to_recharge">रिचार्ज की राशि</string>
+    <string name="save">संचय</string>
+    <string name="close">बंद करे</string>
+    <string name="failed">असफल</string>
+    <string name="pending">अपूर्ण</string>
+    <string name="add_payment">भुगतान जोड़ें</string>
+    <string name="payment_record">भुगतान रिकॉर्ड</string>
+    <string name="amount">रकम</string>
+    <string name="mode">प्रकार</string>
+    <string name="description">विवरण</string>
+    <string name="current_password">वर्तमान पासवर्ड</string>
+    <string name="new_password">नया पासवर्ड</string>
+    <string name="confirm_password">नए पासवर्ड की पुष्टि करें</string>
+    <string name="submit_button">जमा करें</string>
+
+    <string name="call_for_support">सहायता के लिए कॉल करें</string>
+    <string name="change_language">भाषा बदलो</string>
+    <string name="change_password">पासवर्ड बदलें</string>
+    <string name="title_activity_transaction_">Transaction_Activity</string>
+
+    <string name="vehicle_text">वाहन - </string>
+    <string name="main_balance_text">मुख्य बैलेंस - </string>
+    <string name="reward_points_text">इनाम अंक - </string>
+    <string name="balance_text">बैलेंस - </string>
+    <string name="card_balance_text">कार्ड बैलेंस - </string>
+</resources>

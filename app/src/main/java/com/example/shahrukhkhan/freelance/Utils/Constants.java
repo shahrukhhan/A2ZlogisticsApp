@@ -17,9 +17,6 @@ public class Constants {
 //    public static final String API_URL = "http://192.168.1.5/FinalProject";
     public static final String API_URL = "http://finalproject-001-site1.itempurl.com";
     public static final String LANGUAGE = "language";
-    public static final String VEHICLE = "Vehicle - ";
     public static final String MAIN_BALANCE = "Main Balance - ";
-    public static final String REWARD_POINTS = "Reward Points - ";
-    public static final String CARD_BALANCE = "Balance - ";
     public static final String ACTIVITY_ID = "activity_id";
 }

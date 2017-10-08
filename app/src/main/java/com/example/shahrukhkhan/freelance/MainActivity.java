@@ -2,10 +2,13 @@ package com.example.shahrukhkhan.freelance;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,19 +43,26 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView mainBalance, rewardPoints;
+    private Locale myLocale;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
+            setLocale("");
+        else
+            setLocale("hi");
+        toolbar = findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mainBalance = (TextView) findViewById(R.id.main_balance);
-        rewardPoints = (TextView) findViewById(R.id.reward_points);
+        mainBalance = findViewById(R.id.main_balance);
+        rewardPoints = findViewById(R.id.reward_points);
         fetchUser();
     }
 
@@ -94,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Log.i("hello", response+"");
                 try {
-                    String balance = Constants.MAIN_BALANCE + response.getInt("Balance");
-                    String discount = Constants.REWARD_POINTS + response.getInt("Discount");
+                    String balance = getResources().getString(R.string.main_balance_text) + response.getInt("Balance");
+                    String discount = getResources().getString(R.string.reward_points_text) + response.getInt("Discount");
                     mainBalance.setText(balance);
                     rewardPoints.setText(discount);
                     editor.putInt(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
@@ -174,5 +185,14 @@ public class MainActivity extends AppCompatActivity {
     public void openUserTransactionView(View v) {
         Intent intent = new Intent(this, UserTransactionActivity.class);
         startActivity(intent);
+    }
+
+    private void setLocale(String lang) {
+        myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 }

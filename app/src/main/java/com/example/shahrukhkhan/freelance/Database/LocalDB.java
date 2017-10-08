@@ -103,14 +103,13 @@ public class LocalDB extends SQLiteOpenHelper {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         String selectQuery = null;
         if (type == ALL) {
-            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + USER_ID
-                    + " LIKE '" + prefs.getString(Constants.USERNAME, "") + "'";
+            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == PAID) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE
-                    + " LIKE 'Debit'";
+                    + " LIKE 'Debit' ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == RECHARGED) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE
-                    + " LIKE 'Credit'";
+                    + " LIKE 'Credit' ORDER BY " + CARD_TIMESTAMP + " ASC";
         }
 
         Cursor c = db.rawQuery(selectQuery, null);
@@ -142,13 +141,13 @@ public class LocalDB extends SQLiteOpenHelper {
         String selectQuery = null;
         if(type == ALL) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "'";
+                    + " LIKE '" + id + "' ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if(type == PAID) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Debit'";
+                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Debit' ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if(type == RECHARGED) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Credit'";
+                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Credit' ORDER BY " + CARD_TIMESTAMP + " ASC";
         }
 
         Cursor c = db.rawQuery(selectQuery, null);

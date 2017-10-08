@@ -62,6 +62,7 @@ public class CardActivity extends AppCompatActivity {
                     intent.putExtra("name", cardDataList.get(i).getCardName());
                     intent.putExtra("number", cardDataList.get(i).getCardId());
                     intent.putExtra("vehicle", cardDataList.get(i).getVehicleNumber());
+                    intent.putExtra("balance", cardDataList.get(i).getCardBalance());
                     startActivity(intent);
                 } else {
                     RechargeDialogClass dialogClass = new RechargeDialogClass(CardActivity.this, cardDataList.get(i));

@@ -38,9 +38,9 @@ public class TransactionActivity extends AppCompatActivity {
     private TransactionFragment transactionFragmentAll;
     private TransactionFragment transactionFragmentPaid;
     private TransactionFragment transactionFragmentRecharged;
-    private TextView cardUsageText;
+    private TextView cardUsageText,cardUsageBalance;
     public String name, number, vehicle;
-    public int activityType;
+    public int activityType, balance;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -59,8 +59,10 @@ public class TransactionActivity extends AppCompatActivity {
         name = intent.getStringExtra("name");
         number = intent.getStringExtra("number");
         vehicle = intent.getStringExtra("vehicle");
+        balance = intent.getIntExtra("balance", 0);
         activityType = intent.getIntExtra(Constants.ACTIVITY_ID, 0);
         cardUsageText = (TextView) findViewById(R.id.card_usage_text);
+        cardUsageBalance = (TextView) findViewById(R.id.txn_card_balance);
         init();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -95,10 +97,14 @@ public class TransactionActivity extends AppCompatActivity {
     private void init() {
         if (activityType == R.id.cards_usage_icon) {
             cardUsageText.setVisibility(View.VISIBLE);
+            cardUsageBalance.setVisibility(View.VISIBLE);
             String text = name + " - " + number + " | " + vehicle;
+            String bal = getResources().getString(R.string.card_balance_text) + balance;
             cardUsageText.setText(text);
+            cardUsageBalance.setText(bal);
         } else {
             cardUsageText.setVisibility(View.GONE);
+            cardUsageBalance.setVisibility(View.GONE);
         }
     }
 

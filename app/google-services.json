@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "197664403511",
+    "firebase_url": "https://a2zappproject.firebaseio.com",
+    "project_id": "a2zappproject",
+    "storage_bucket": "a2zappproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197664403511:android:126df133c1561e5a",
+        "android_client_info": {
+          "package_name": "com.example.shahrukhkhan.freelance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197664403511-79qgua0le33eosep32pc6l3bljivojb8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shahrukhkhan.freelance",
+            "certificate_hash": "669a2e01a1c6cec6facce8a06dea07ec57816735"
+          }
+        },
+        {
+          "client_id": "197664403511-9unldu35vs4slndtckulfpivuno492e7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASwikR4GopOSRE8eitA4udD1eukg5s618"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197664403511-9unldu35vs4slndtckulfpivuno492e7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

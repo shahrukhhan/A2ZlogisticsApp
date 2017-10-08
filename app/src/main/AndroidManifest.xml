@@ -28,23 +28,30 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:configChanges="locale"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CardTest" />
         <activity
             android:name=".Activities.CardActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="locale"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".Activities.TransactionActivity"
             android:label="@string/title_activity_transaction_"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="locale"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.UserTransactionActivity"
             android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop"
+            android:configChanges="locale"
             android:screenOrientation="portrait"></activity>
     </application>
 

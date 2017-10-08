@@ -50,4 +50,10 @@
     <string name="change_language">Change Language</string>
     <string name="change_password">Change Password</string>
     <string name="title_activity_transaction_">Transaction_Activity</string>
+
+    <string name="vehicle_text">Vehicle - </string>
+    <string name="main_balance_text">Main Balance - </string>
+    <string name="reward_points_text">Reward Points - </string>
+    <string name="balance_text">Balance - </string>
+    <string name="card_balance_text">Card Balance - </string>
 </resources>

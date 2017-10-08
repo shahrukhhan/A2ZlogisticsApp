@@ -2,9 +2,12 @@ package com.example.shahrukhkhan.freelance;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText userName, password;
@@ -40,6 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!preferences.getString(Constants.TOKEN, "").equals("")) {
+            if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
+                setLocale("");
+            else
+                setLocale("hi");
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -59,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     if (userName.getText().toString().equals(""))
                         errorText.setText(R.string.empty_username);
-                    else if(password.getText().toString().equals(""))
+                    else if (password.getText().toString().equals(""))
                         errorText.setText(R.string.empty_password);
                     errorText.setVisibility(View.VISIBLE);
                 }
@@ -141,5 +149,14 @@ public class LoginActivity extends AppCompatActivity {
         CustomDialogClass dialogClass = new CustomDialogClass(LoginActivity.this);
         dialogClass.setCanceledOnTouchOutside(false);
         dialogClass.show();
+    }
+
+    private void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.shahrukhkhan.freelance.Interfaces.ListClickListener;
 import com.example.shahrukhkhan.freelance.Model.CardData;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.Utils.Constants;
 
 import java.util.List;
 
@@ -69,8 +68,8 @@ public class CardsAdapter extends BaseAdapter {
             cardListHolder.addBalance.setVisibility(View.VISIBLE);
         }
         String name = cardList.get(i).getCardName() + " - " + cardList.get(i).getCardId();
-        String vehicle = Constants.VEHICLE + cardList.get(i).getVehicleNumber();
-        String balance = Constants.CARD_BALANCE + cardList.get(i).getCardBalance();
+        String vehicle = context.getResources().getString(R.string.vehicle_text) + cardList.get(i).getVehicleNumber();
+        String balance = context.getResources().getString(R.string.balance_text) + cardList.get(i).getCardBalance();
         cardListHolder.cardName.setText(name);
         cardListHolder.vehicleNumber.setText(vehicle);
         cardListHolder.cardBalance.setText(balance);

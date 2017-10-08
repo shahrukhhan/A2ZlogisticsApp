@@ -48,4 +48,17 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    <TextView
+        android:id="@+id/txn_card_balance"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="CARD"
+        android:textColor="@android:color/white"
+        android:gravity="end|center"
+        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="18sp"
+        android:layout_gravity="bottom"
+        android:background="@color/appThemeBlue"/>
+
 </android.support.design.widget.CoordinatorLayout>

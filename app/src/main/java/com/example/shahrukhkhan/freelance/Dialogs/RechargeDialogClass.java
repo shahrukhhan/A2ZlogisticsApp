@@ -118,7 +118,7 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
                     transactionData.setCardRemarks("Pending");
                     transactionData.setUserID(response.getString("UserName"));
                     LocalDB.getmInstance(c.getApplicationContext()).putData(transactionData);
-                    editor.putInt(Constants.MAIN_BALANCE, response.getInt("Balance"));
+                    editor.putInt(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
                     editor.apply();
                     dismiss();
                     Util.snackBarOnUIThread("Request Successful!", c, "#a4c639");
