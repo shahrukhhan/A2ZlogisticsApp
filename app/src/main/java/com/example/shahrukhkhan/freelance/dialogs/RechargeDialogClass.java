@@ -19,9 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.shahrukhkhan.freelance.R;
-import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.model.CardData;
-import com.example.shahrukhkhan.freelance.model.TransactionData;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 import com.example.shahrukhkhan.freelance.utils.Util;
@@ -78,11 +76,11 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
             dismiss();
         } else if (view.getId() == R.id.recharge_save_button) {
             if (amount.getText().toString().equals("") || Integer.parseInt(amount.getText().toString()) <= 0) {
-                Toast.makeText(c.getApplicationContext(),"Invalid Request",Toast.LENGTH_SHORT).show();
+                Toast.makeText(c.getApplicationContext(), "Invalid Request", Toast.LENGTH_SHORT).show();
             } else {
                 int requestAmount = Integer.parseInt(amount.getText().toString());
                 if (requestAmount > preferences.getInt(Constants.ACCOUNT_BALANCE, -1)) {
-                    Toast.makeText(c.getApplicationContext(),"Not enough balance to make this request",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(c.getApplicationContext(), "Not enough balance to make this request", Toast.LENGTH_SHORT).show();
                 } else {
                     makeRequest(cardData, requestAmount);
                 }
@@ -106,25 +104,14 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                TransactionData transactionData = new TransactionData();
                 try {
-                    transactionData.setTxnId(response.getString("RequestID"));
-                    transactionData.setCardName(card.getCardName());
-                    transactionData.setCardStatus(2);
-                    transactionData.setCardType(response.getString("CardType"));
-                    transactionData.setCardId(response.getString("CardID"));
-                    transactionData.setCardAmount(response.getInt("Amount"));
-                    transactionData.setCardTimeStamp(response.getString("TimeStamp"));
-                    transactionData.setCardRemarks("Pending");
-                    transactionData.setUserID(response.getString("UserName"));
-                    LocalDB.getmInstance(c.getApplicationContext()).putData(transactionData);
                     editor.putInt(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
-                    editor.apply();
-                    dismiss();
-                    Util.snackBarOnUIThread("Request Successful!", c, "#a4c639");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                editor.apply();
+                dismiss();
+                Util.snackBarOnUIThread("Request Successful!", c, "#a4c639");
             }
         }, new Response.ErrorListener() {
             @Override

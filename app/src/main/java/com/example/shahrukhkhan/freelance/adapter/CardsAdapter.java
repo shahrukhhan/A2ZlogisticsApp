@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.interfaces.ListClickListener;
 import com.example.shahrukhkhan.freelance.model.CardData;
-import com.example.shahrukhkhan.freelance.R;
 
 import java.util.List;
 

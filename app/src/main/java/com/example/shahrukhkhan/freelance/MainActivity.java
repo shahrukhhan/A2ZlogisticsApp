@@ -11,12 +11,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private Locale myLocale;
     private SharedPreferences preferences;
     private static final int PERMISSIONS_REQUEST_CALL_PHONE = 101;
+    private LinearLayout linearLayout;
+    private GridLayout gridLayout;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        progressBar = findViewById(R.id.main_progress_bar);
+        linearLayout = findViewById(R.id.main_linear_layout);
+        gridLayout = findViewById(R.id.main_grid_view);
+        linearLayout.setVisibility(View.INVISIBLE);
+        gridLayout.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         mainBalance = findViewById(R.id.main_balance);
         rewardPoints = findViewById(R.id.reward_points);
         fetchUser();
@@ -114,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i("hello", response + "");
+                progressBar.setVisibility(View.INVISIBLE);
+                gridLayout.setVisibility(View.VISIBLE);
+                linearLayout.setVisibility(View.VISIBLE);
                 try {
                     String balance = getResources().getString(R.string.main_balance_text) + response.getInt("Balance");
                     String discount = getResources().getString(R.string.reward_points_text) + response.getInt("Discount");
@@ -212,7 +225,8 @@ public class MainActivity extends AppCompatActivity {
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CALL_PHONE: {
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
+                        grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:+917891088099"));
                     startActivity(intent);

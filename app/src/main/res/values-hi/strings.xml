@@ -40,19 +40,20 @@
     <string name="amount">रकम</string>
     <string name="mode">प्रकार</string>
     <string name="description">विवरण</string>
+    <string name="change_password_header">पासवर्ड बदलें</string>
     <string name="current_password">वर्तमान पासवर्ड</string>
     <string name="new_password">नया पासवर्ड</string>
     <string name="confirm_password">नए पासवर्ड की पुष्टि करें</string>
     <string name="submit_button">जमा करें</string>
 
     <string name="call_for_support">सहायता के लिए कॉल करें</string>
-    <string name="change_language">भाषा बदलो</string>
+    <string name="change_language">भाषा बदलें</string>
     <string name="change_password">पासवर्ड बदलें</string>
     <string name="title_activity_transaction_">Transaction_Activity</string>
 
     <string name="vehicle_text">वाहन - </string>
-    <string name="main_balance_text">मुख्य बैलेंस - </string>
-    <string name="reward_points_text">इनाम अंक - </string>
-    <string name="balance_text">बैलेंस - </string>
-    <string name="card_balance_text">कार्ड बैलेंस - </string>
+    <string name="main_balance_text">मुख्य बैलेंस - ₹</string>
+    <string name="reward_points_text">इनाम अंक - ₹</string>
+    <string name="balance_text">बैलेंस - ₹</string>
+    <string name="card_balance_text">कार्ड बैलेंस - ₹</string>
 </resources>

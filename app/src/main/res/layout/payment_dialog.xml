@@ -138,7 +138,7 @@
         android:clickable="true"
         android:text="@string/close"
         android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/payment_save_button"
@@ -151,7 +151,7 @@
         android:clickable="true"
         android:text="@string/save"
         android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,14 +20,14 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.shahrukhkhan.freelance.LoginActivity;
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.adapter.CardsAdapter;
 import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.RechargeDialogClass;
-import com.example.shahrukhkhan.freelance.LoginActivity;
 import com.example.shahrukhkhan.freelance.model.CardData;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
@@ -44,6 +45,7 @@ public class CardActivity extends AppCompatActivity {
     private List<CardData> cardDataList = new ArrayList<>();
     private CardsAdapter adapter;
     private GridView gridview;
+    private ProgressBar progressBar;
     private int activityType;
 
     @Override
@@ -55,6 +57,9 @@ public class CardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         gridview = findViewById(R.id.grid_view);
+        progressBar = findViewById(R.id.card_progress_bar);
+        gridview.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         activityType = getIntent().getIntExtra(Constants.ACTIVITY_ID, 0);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -113,6 +118,8 @@ public class CardActivity extends AppCompatActivity {
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                gridview.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 populateList(response);
             }
         }, new Response.ErrorListener() {

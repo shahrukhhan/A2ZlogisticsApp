@@ -5,6 +5,7 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:context="com.example.shahrukhkhan.freelance.activities.TransactionActivity">
 
@@ -12,7 +13,6 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -21,29 +21,32 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:theme="@style/ToolbarColoredBackArrow"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/ToolbarColoredBackArrow"/>
 
-        </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/card_usage_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
             android:textColor="@color/appThemeBlue"
             android:textSize="16sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:background="@android:color/white"/>
+            android:textStyle="bold" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@color/appThemeBlue"
             android:background="@android:color/white"
+            app:tabIndicatorColor="@color/appThemeBlue"
             app:tabSelectedTextColor="@color/appThemeBlue"
-            app:tabIndicatorColor="@color/appThemeBlue"/>
+            app:tabTextColor="@color/appThemeBlue" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -51,19 +54,19 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <TextView
         android:id="@+id/txn_card_balance"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="CARD"
-        android:textColor="@android:color/white"
-        android:gravity="end|center"
-        android:paddingRight="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="18sp"
         android:layout_gravity="bottom"
-        android:background="@color/appThemeBlue"/>
+        android:background="@color/appThemeBlue"
+        android:gravity="end|center"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -16,12 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.shahrukhkhan.freelance.LoginActivity;
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.fragments.TransactionFragment;
-import com.example.shahrukhkhan.freelance.LoginActivity;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 
 public class TransactionActivity extends AppCompatActivity {
@@ -41,7 +41,6 @@ public class TransactionActivity extends AppCompatActivity {
     private TextView cardUsageText, cardUsageBalance;
     public String name, number, vehicle;
     public int activityType, balance;
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -75,26 +74,9 @@ public class TransactionActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
     }
 
-    private void init() {
+    public void init() {
         if (activityType == R.id.cards_usage_icon) {
             cardUsageText.setVisibility(View.VISIBLE);
             cardUsageBalance.setVisibility(View.VISIBLE);

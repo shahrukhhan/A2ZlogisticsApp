@@ -7,10 +7,24 @@
 
     <include layout="@layout/my_toolbar" />
 
+    <View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginTop="56dp"
+    android:background="@android:color/darker_gray"/>
+
+    <ProgressBar
+        android:id="@+id/main_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <android.support.v7.widget.GridLayout
+        android:id="@+id/main_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="top|start"
+        android:layout_marginTop="72dp"
         android:paddingEnd="8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
@@ -92,6 +106,7 @@
     </android.support.v7.widget.GridLayout>
 
     <LinearLayout
+        android:id="@+id/main_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"

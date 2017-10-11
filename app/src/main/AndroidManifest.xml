@@ -33,7 +33,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CardTest" />
         <activity
             android:name=".activities.CardActivity"
             android:configChanges="locale"

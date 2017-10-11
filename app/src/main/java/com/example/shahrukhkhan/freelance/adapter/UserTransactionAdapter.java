@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.activities.UserTransactionActivity;
 import com.example.shahrukhkhan.freelance.model.UserTransactionData;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.text.ParseException;

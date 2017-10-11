@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="IOCL - 12374838498491234567"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 
@@ -24,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Vehicle - RJ14FS9776"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
 
@@ -33,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Balance - 201440"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
     </LinearLayout>

@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.activities.TransactionActivity;
 import com.example.shahrukhkhan.freelance.interfaces.ListClickListener;
 import com.example.shahrukhkhan.freelance.model.TransactionData;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 
 import java.text.ParseException;

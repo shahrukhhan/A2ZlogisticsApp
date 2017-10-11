@@ -2,8 +2,6 @@ package com.example.shahrukhkhan.freelance.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,9 +46,11 @@ public class TransactionFragment extends Fragment implements ListClickListener {
 
     private List<TransactionData> transactionDataList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     TransactionAdapter transactionAdapter;
     TransactionActivity transactionActivity;
     private int type;
+    private static boolean isCreated = false;
 
     public TransactionFragment() {
 
@@ -58,11 +59,12 @@ public class TransactionFragment extends Fragment implements ListClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        transactionActivity = (TransactionActivity) getActivity();
-        if (type == 0) {
-            String date = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getLatestTransactionDate();
-            fetchLatestTransactions(date);
-        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isCreated = false;
     }
 
     @Override
@@ -71,12 +73,21 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         View view = inflater.inflate(R.layout.fragment_transaction, container, false);
         Bundle args = getArguments();
         type = args.getInt("type");
+        transactionActivity = (TransactionActivity) getActivity();
         recyclerView = view.findViewById(R.id.transaction_recycler_view);
+        progressBar = view.findViewById(R.id.frag_progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        populateList();
+        if (!isCreated) {
+            isCreated = true;
+            String date = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getLatestTransactionDate();
+            fetchLatestTransactions(date);
+        } else {
+            populateList();
+        }
         return view;
     }
 
@@ -87,13 +98,9 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         else
             transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getData(type);
         transactionAdapter = new TransactionAdapter(transactionDataList, this, transactionActivity);
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.setAdapter(transactionAdapter);
-                transactionAdapter.notifyDataSetChanged();
-            }
-        }, 1000);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setAdapter(transactionAdapter);
+        transactionAdapter.notifyDataSetChanged();
     }
 
     public void fetchLatestTransactions(String strDate) {
@@ -111,6 +118,7 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < response.length(); i++) {
                     TransactionData transactionData = new TransactionData();
                     try {

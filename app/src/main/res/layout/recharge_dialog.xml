@@ -139,7 +139,7 @@
             android:clickable="true"
             android:text="@string/close"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             style="?android:attr/borderlessButtonStyle"
             />
 
@@ -154,7 +154,7 @@
             android:clickable="true"
             android:text="@string/save"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

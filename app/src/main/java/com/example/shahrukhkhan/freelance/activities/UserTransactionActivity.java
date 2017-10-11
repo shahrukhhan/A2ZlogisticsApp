@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,14 +23,14 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.example.shahrukhkhan.freelance.LoginActivity;
+import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.adapter.UserTransactionAdapter;
 import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PaymentDialogClass;
-import com.example.shahrukhkhan.freelance.LoginActivity;
 import com.example.shahrukhkhan.freelance.model.UserTransactionData;
-import com.example.shahrukhkhan.freelance.R;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
@@ -46,6 +47,7 @@ public class UserTransactionActivity extends AppCompatActivity {
 
     private List<UserTransactionData> userTransactionDataList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private UserTransactionAdapter userTransactionAdapter;
     private TextView addPayment;
 
@@ -58,7 +60,10 @@ public class UserTransactionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        progressBar = findViewById(R.id.user_progress_bar);
         recyclerView = findViewById(R.id.transaction_recycler_view);
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -113,6 +118,8 @@ public class UserTransactionActivity extends AppCompatActivity {
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < response.length(); i++) {
                     UserTransactionData userTransactionData = new UserTransactionData();
                     try {
