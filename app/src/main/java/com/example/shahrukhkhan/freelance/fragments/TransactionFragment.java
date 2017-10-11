@@ -50,7 +50,7 @@ public class TransactionFragment extends Fragment implements ListClickListener {
     TransactionAdapter transactionAdapter;
     TransactionActivity transactionActivity;
     private int type;
-    private static boolean isCreated = false;
+    private static int isCreated = 0;
 
     public TransactionFragment() {
 
@@ -64,7 +64,7 @@ public class TransactionFragment extends Fragment implements ListClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isCreated = false;
+        isCreated = 0;
     }
 
     @Override
@@ -81,8 +81,8 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        if (!isCreated) {
-            isCreated = true;
+        if (isCreated <= 1) {
+            isCreated += 1;
             String date = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getLatestTransactionDate();
             fetchLatestTransactions(date);
         } else {

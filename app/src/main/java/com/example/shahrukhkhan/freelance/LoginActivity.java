@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
@@ -31,6 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,21 +47,32 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+        Date testDate = null;
+        try {
+            testDate = sdf.parse(preferences.getString(Constants.TOKEN_EXPIRY, ""));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (!preferences.getString(Constants.TOKEN, "").equals("")) {
-            if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
-                setLocale("");
-            else
-                setLocale("hi");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            if (testDate.compareTo(new Date()) < 0) {
+                logout();
+            } else {
+                if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
+                    setLocale("");
+                else
+                    setLocale("hi");
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
         setContentView(R.layout.activity_login);
-        userName = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
-        errorText = (TextView) findViewById(R.id.wrong_credentials);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
-        login = (Button) findViewById(R.id.login_button);
+        userName = findViewById(R.id.username);
+        password = findViewById(R.id.password);
+        errorText = findViewById(R.id.wrong_credentials);
+        progressBar = findViewById(R.id.progress);
+        login = findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,5 +173,16 @@ public class LoginActivity extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+    }
+
+    private void logout() {
+        LocalDB.getmInstance(getApplicationContext()).deleteTransactions();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constants.USERNAME, "");
+        editor.putString(Constants.TOKEN, "");
+        editor.putString(Constants.TOKEN_EXPIRY, "");
+        editor.putString(Constants.NAME, "");
+        editor.apply();
     }
 }
