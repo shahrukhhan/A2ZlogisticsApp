@@ -13,6 +13,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/a2zsplash</item>
+    </style>
+
     <style name="ToolbarColoredBackArrow" parent="AppTheme">
         <item name="android:textColorSecondary">#4286f4</item>
     </style>

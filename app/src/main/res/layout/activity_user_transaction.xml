@@ -52,6 +52,7 @@
             android:layout_width="72dp"
             android:layout_height="36dp"
             android:background="@drawable/mybutton"
+            android:textColor="@android:color/white"
             android:text="@string/filter"
             android:layout_gravity="end"
             android:layout_margin="8dp" />

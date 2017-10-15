@@ -82,6 +82,7 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
                 if (requestAmount > preferences.getInt(Constants.ACCOUNT_BALANCE, -1)) {
                     Toast.makeText(c.getApplicationContext(), "Not enough balance to make this request", Toast.LENGTH_SHORT).show();
                 } else {
+                    save.setEnabled(false);
                     makeRequest(cardData, requestAmount);
                 }
             }

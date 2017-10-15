@@ -66,6 +66,7 @@ public class PasswordDialogClass extends Dialog implements View.OnClickListener 
                     || confirmPwd.getText().toString().equals("")) {
                 Toast.makeText(c.getApplicationContext(), "Field cannot be empty.", Toast.LENGTH_SHORT).show();
             } else {
+                save.setEnabled(false);
                 makeRequest();
             }
         }

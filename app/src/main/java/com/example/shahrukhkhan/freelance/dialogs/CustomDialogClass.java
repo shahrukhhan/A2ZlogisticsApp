@@ -60,6 +60,7 @@ public class CustomDialogClass extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        ok.setEnabled(false);
         if (view.getId() == R.id.language_button) {
             SharedPreferences.Editor editor = prefs.edit();
             int id = radioGroup.getCheckedRadioButtonId();

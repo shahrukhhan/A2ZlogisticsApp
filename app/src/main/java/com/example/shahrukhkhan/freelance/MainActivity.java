@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        progressBar.setVisibility(View.VISIBLE);
+        fetchUser();
     }
 
     @Override
