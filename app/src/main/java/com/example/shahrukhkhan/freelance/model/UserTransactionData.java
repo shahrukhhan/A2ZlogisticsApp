@@ -7,7 +7,7 @@ package com.example.shahrukhkhan.freelance.model;
 public class UserTransactionData {
     private String userTxnId;
     private String userTxnDesc;
-    private String userTxnDate;
+    private long userTxnDate;
     private int userTxnAmt;
 
     public String getUserTxnId() {
@@ -26,11 +26,11 @@ public class UserTransactionData {
         this.userTxnDesc = userTxnDesc;
     }
 
-    public String getUserTxnDate() {
+    public long getUserTxnDate() {
         return userTxnDate;
     }
 
-    public void setUserTxnDate(String userTxnDate) {
+    public void setUserTxnDate(long userTxnDate) {
         this.userTxnDate = userTxnDate;
     }
 

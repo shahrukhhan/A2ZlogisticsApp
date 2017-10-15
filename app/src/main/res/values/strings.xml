@@ -58,4 +58,7 @@
     <string name="reward_points_text">Reward Points - ₹</string>
     <string name="balance_text">Balance - ₹</string>
     <string name="card_balance_text">Card Balance - ₹</string>
+    <string name="from_date">FROM</string>
+    <string name="_date">TO</string>
+    <string name="filter">FILTER</string>
 </resources>

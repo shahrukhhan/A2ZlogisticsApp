@@ -11,7 +11,6 @@ import com.example.shahrukhkhan.freelance.activities.UserTransactionActivity;
 import com.example.shahrukhkhan.freelance.model.UserTransactionData;
 import com.example.shahrukhkhan.freelance.utils.Constants;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,13 +62,7 @@ public class UserTransactionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         UserTransactionData userTransactionData = userTransactionDataList.get(position);
         myViewHolder.transactionListHolder.txnStatus.setVisibility(View.GONE);
         String amount = Constants.RS + userTransactionData.getUserTxnAmt();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        Date testDate = null;
-        try {
-            testDate = sdf.parse(userTransactionData.getUserTxnDate());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date testDate = new Date(userTransactionData.getUserTxnDate());
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
         String newFormat = formatter.format(testDate);
         myViewHolder.transactionListHolder.txnCardName.setText(userTransactionData.getUserTxnDesc());

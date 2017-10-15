@@ -7,15 +7,16 @@ package com.example.shahrukhkhan.freelance.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.preference.PreferenceManager;
 
 import com.example.shahrukhkhan.freelance.model.TransactionData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LocalDB extends SQLiteOpenHelper {
@@ -66,12 +67,14 @@ public class LocalDB extends SQLiteOpenHelper {
                     + CARD_NAME + " " + TEXT + ","
                     + CARD_AMOUNT + " " + INTEGER + ","
                     + CARD_STATUS + " " + INTEGER + ","
-                    + CARD_TIMESTAMP + " " + TEXT + ","
+                    + CARD_TIMESTAMP + " " + INTEGER + ","
                     + CARD_REMARKS + " " + TEXT + ","
                     + TXN_TYPE + " " + TEXT + ","
                     + VEHICLE_NUMBER + " " + TEXT + ","
                     + "UNIQUE (" + TRANSACTION_ID + ") ON CONFLICT REPLACE" +
                     ")";
+
+    private static Date initialDate;
 
     public static LocalDB getmInstance(Context context) {
         mContext = context;
@@ -84,6 +87,13 @@ public class LocalDB extends SQLiteOpenHelper {
 
     public LocalDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        String str = "01/09/2017";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        try {
+            initialDate = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -96,19 +106,36 @@ public class LocalDB extends SQLiteOpenHelper {
 
     }
 
-    public List<TransactionData> getData(int type) {
+    public List<TransactionData> getData(int type, String from, String to) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        long fromDate = System.currentTimeMillis();
+        long toDate = System.currentTimeMillis();
+        try {
+            if (from.equals("")) {
+                fromDate = initialDate.getTime();
+            } else {
+                fromDate = sdf.parse(from).getTime();
+            }
+            if (to.equals("")) {
+                toDate = System.currentTimeMillis();
+            } else {
+                toDate = sdf.parse(to).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         SQLiteDatabase db = mInstance.getReadableDatabase();
         List<TransactionData> list = new ArrayList<>();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         String selectQuery = null;
         if (type == ALL) {
-            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " ORDER BY " + CARD_TIMESTAMP + " ASC";
+            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate
+                    + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == PAID) {
-            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE
-                    + " LIKE 'Debit' ORDER BY " + CARD_TIMESTAMP + " ASC";
+            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE + " LIKE 'Debit' AND "
+                    + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == RECHARGED) {
-            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE
-                    + " LIKE 'Credit' ORDER BY " + CARD_TIMESTAMP + " ASC";
+            selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + TXN_TYPE + " LIKE 'Credit' AND "
+                    + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         }
 
         Cursor c = db.rawQuery(selectQuery, null);
@@ -121,7 +148,7 @@ public class LocalDB extends SQLiteOpenHelper {
                 transactionData.setCardName(c.getString(c.getColumnIndex(CARD_NAME)));
                 transactionData.setCardAmount(c.getInt(c.getColumnIndex(CARD_AMOUNT)));
                 transactionData.setCardStatus(c.getInt(c.getColumnIndex(CARD_STATUS)));
-                transactionData.setCardTimeStamp(c.getString(c.getColumnIndex(CARD_TIMESTAMP)));
+                transactionData.setCardTimeStamp(c.getLong(c.getColumnIndex(CARD_TIMESTAMP)));
                 transactionData.setCardRemarks(c.getString(c.getColumnIndex(CARD_REMARKS)));
                 transactionData.setTxnType(c.getString(c.getColumnIndex(TXN_TYPE)));
                 transactionData.setVehicleNumber(c.getString(c.getColumnIndex(VEHICLE_NUMBER)));
@@ -133,20 +160,39 @@ public class LocalDB extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<TransactionData> getCardData(String id, int type) {
+    public List<TransactionData> getCardData(String id, int type, String from, String to) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        long fromDate = System.currentTimeMillis();
+        long toDate = System.currentTimeMillis();
+        try {
+            if (from.equals("")) {
+                fromDate = initialDate.getTime();
+            } else {
+                fromDate = sdf.parse(from).getTime();
+            }
+            if (to.equals("")) {
+                toDate = System.currentTimeMillis();
+            } else {
+                toDate = sdf.parse(to).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         SQLiteDatabase db = mInstance.getReadableDatabase();
         List<TransactionData> list = new ArrayList<>();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         String selectQuery = null;
         if (type == ALL) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "' ORDER BY " + CARD_TIMESTAMP + " ASC";
+                    + " LIKE '" + id + "' AND " + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate +
+                    " ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == PAID) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Debit' ORDER BY " + CARD_TIMESTAMP + " ASC";
+                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Debit' AND "
+                    + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         } else if (type == RECHARGED) {
             selectQuery = "SELECT  * FROM " + TABLE_TRANSACTION + " WHERE " + CARD_ID
-                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Credit' ORDER BY " + CARD_TIMESTAMP + " ASC";
+                    + " LIKE '" + id + "' AND " + TXN_TYPE + " LIKE 'Credit' AND "
+                    + CARD_TIMESTAMP + " BETWEEN " + fromDate + " AND " + toDate + " ORDER BY " + CARD_TIMESTAMP + " ASC";
         }
 
         Cursor c = db.rawQuery(selectQuery, null);
@@ -159,7 +205,7 @@ public class LocalDB extends SQLiteOpenHelper {
                 transactionData.setCardName(c.getString(c.getColumnIndex(CARD_NAME)));
                 transactionData.setCardAmount(c.getInt(c.getColumnIndex(CARD_AMOUNT)));
                 transactionData.setCardStatus(c.getInt(c.getColumnIndex(CARD_STATUS)));
-                transactionData.setCardTimeStamp(c.getString(c.getColumnIndex(CARD_TIMESTAMP)));
+                transactionData.setCardTimeStamp(c.getLong(c.getColumnIndex(CARD_TIMESTAMP)));
                 transactionData.setCardRemarks(c.getString(c.getColumnIndex(CARD_REMARKS)));
                 transactionData.setTxnType(c.getString(c.getColumnIndex(TXN_TYPE)));
                 transactionData.setVehicleNumber(c.getString(c.getColumnIndex(VEHICLE_NUMBER)));
@@ -193,17 +239,23 @@ public class LocalDB extends SQLiteOpenHelper {
     }
 
     public String getLatestTransactionDate() {
-        String date = null;
+        long timeStamp = 0;
+        String date;
         SQLiteDatabase db = mInstance.getWritableDatabase();
         String selectQuery = "SELECT MAX(" + CARD_TIMESTAMP + ") FROM " + TABLE_TRANSACTION;
         Cursor c = db.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
-            date = c.getString(c.getColumnIndex("MAX(CARD_TIMESTAMP)"));
+            timeStamp = c.getLong(c.getColumnIndex("MAX(CARD_TIMESTAMP)"));
         }
         c.close();
         db.close();
-        if (date == null)
-            date = "2017-01-01T00:00:00";
+        if (timeStamp == 0) {
+            date = "2017-09-01T00:00:00";
+        } else {
+            Date temp = new Date(timeStamp);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            date = formatter.format(temp);
+        }
         return date;
     }
 

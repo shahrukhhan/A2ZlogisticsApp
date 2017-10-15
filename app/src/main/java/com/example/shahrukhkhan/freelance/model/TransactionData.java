@@ -8,7 +8,7 @@ public class TransactionData {
     private String txnId;
     private String userID;
     private String cardName;
-    private String cardTimeStamp;
+    private long cardTimeStamp;
     private String cardId;
     private String cardRemarks;
     private String cardType;
@@ -40,11 +40,11 @@ public class TransactionData {
         return cardName;
     }
 
-    public void setCardTimeStamp(String cardTimeStamp) {
+    public void setCardTimeStamp(long cardTimeStamp) {
         this.cardTimeStamp = cardTimeStamp;
     }
 
-    public String getCardTimeStamp() {
+    public long getCardTimeStamp() {
         return cardTimeStamp;
     }
 

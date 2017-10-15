@@ -21,6 +21,43 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:weightSum="2">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/from_user_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/from_date"
+                android:theme="@style/AppTheme"
+                app:backgroundTint="@color/appThemeBlue" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/to_user_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/_date"
+                android:theme="@style/AppTheme"
+                app:backgroundTint="@color/appThemeBlue" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/user_filter_button"
+            android:layout_width="72dp"
+            android:layout_height="36dp"
+            android:background="@drawable/mybutton"
+            android:text="@string/filter"
+            android:layout_gravity="end"
+            android:layout_margin="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@android:color/white"
             android:gravity="center"

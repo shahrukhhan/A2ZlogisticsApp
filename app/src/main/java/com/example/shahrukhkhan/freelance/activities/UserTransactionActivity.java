@@ -1,10 +1,18 @@
 package com.example.shahrukhkhan.freelance.activities;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +48,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +60,18 @@ import java.util.Map;
 public class UserTransactionActivity extends AppCompatActivity {
 
     private List<UserTransactionData> userTransactionDataList = new ArrayList<>();
+    private List<UserTransactionData> newList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private UserTransactionAdapter userTransactionAdapter;
     private TextView addPayment;
+    private AppCompatEditText fromDate, toDate;
+    private AppCompatButton filterButton;
+    public int dateType;
+    private final static int TYPE_FROM = 0;
+    private final static int TYPE_TO = 1;
+
+    private static Date initialDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +83,11 @@ public class UserTransactionActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         progressBar = findViewById(R.id.user_progress_bar);
+        fromDate = findViewById(R.id.from_user_date);
+        toDate = findViewById(R.id.to_user_date);
+        filterButton = findViewById(R.id.user_filter_button);
+        fromDate.setFocusable(false);
+        toDate.setFocusable(false);
         recyclerView = findViewById(R.id.transaction_recycler_view);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
@@ -68,14 +95,52 @@ public class UserTransactionActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        userTransactionAdapter = new UserTransactionAdapter(userTransactionDataList, UserTransactionActivity.this);
+        userTransactionAdapter = new UserTransactionAdapter(newList, UserTransactionActivity.this);
         recyclerView.setAdapter(userTransactionAdapter);
+
+        String str = "01/09/2017";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        try {
+            initialDate = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         addPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PaymentDialogClass paymentDialogClass = new PaymentDialogClass(UserTransactionActivity.this);
                 paymentDialogClass.setCanceledOnTouchOutside(false);
                 paymentDialogClass.show();
+            }
+        });
+
+        fromDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(fromDate.getWindowToken(), 0);
+                dateType = TYPE_FROM;
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        toDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(toDate.getWindowToken(), 0);
+                dateType = TYPE_TO;
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateList();
             }
         });
         fetchUserTransactions();
@@ -124,16 +189,23 @@ public class UserTransactionActivity extends AppCompatActivity {
                     UserTransactionData userTransactionData = new UserTransactionData();
                     try {
                         JSONObject transaction = response.getJSONObject(i);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        Date date = null;
+                        try {
+                            date = sdf.parse(transaction.getString("TimeStamp"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         userTransactionData.setUserTxnDesc(transaction.getString("AdminDescription"));
-                        userTransactionData.setUserTxnDate(transaction.getString("TimeStamp"));
+                        userTransactionData.setUserTxnDate(date.getTime());
                         userTransactionData.setUserTxnAmt(transaction.getInt("Amount"));
                         userTransactionDataList.add(userTransactionData);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                newList.addAll(userTransactionDataList);
                 userTransactionAdapter.notifyDataSetChanged();
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -187,5 +259,90 @@ public class UserTransactionActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            long minDate = System.currentTimeMillis();
+            // Create a new instance of DatePickerDialog and return it
+            try {
+                String dateString = "01/09/2017";
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = sdf.parse(dateString);
+                minDate = date.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
+            datePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
+            datePicker.getDatePicker().setMinDate(minDate);
+            return datePicker;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            String date = day + "/" + (month + 1) + "/" + year;
+            UserTransactionActivity activity = (UserTransactionActivity) getActivity();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+            Date cal = null;
+            String dispDate = null;
+            try {
+                cal = sdf.parse(date);
+                dispDate = formatter.format(cal);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            activity.displayDate(dispDate);
+        }
+
+        @Override
+        public void onCancel(DialogInterface dialog) {
+
+        }
+    }
+
+    public void displayDate(String date) {
+        if (dateType == TYPE_FROM) {
+            fromDate.setText(date);
+        } else {
+            toDate.setText(date);
+        }
+    }
+
+    public void updateList() {
+        String from = fromDate.getText().toString();
+        String to = toDate.getText().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+        long fromDate = System.currentTimeMillis();
+        long toDate = System.currentTimeMillis();
+        try {
+            if (from.equals("")) {
+                fromDate = initialDate.getTime();
+            } else {
+                fromDate = sdf.parse(from).getTime();
+            }
+            if (to.equals("")) {
+                toDate = System.currentTimeMillis();
+            } else {
+                toDate = sdf.parse(to).getTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        newList.clear();
+        for (UserTransactionData data : userTransactionDataList) {
+            if (data.getUserTxnDate() >= fromDate && data.getUserTxnDate() <= toDate)
+                newList.add(data);
+        }
+        userTransactionAdapter.notifyDataSetChanged();
     }
 }

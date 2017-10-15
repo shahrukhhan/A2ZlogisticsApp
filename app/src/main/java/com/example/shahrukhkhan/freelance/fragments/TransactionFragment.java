@@ -93,10 +93,12 @@ public class TransactionFragment extends Fragment implements ListClickListener {
 
     public void populateList() {
         transactionDataList.clear();
+        String from = transactionActivity.fromDate.getText().toString();
+        String to = transactionActivity.toDate.getText().toString();
         if (transactionActivity.activityType == R.id.cards_usage_icon)
-            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getCardData(transactionActivity.number, type);
+            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getCardData(transactionActivity.number, type, from, to);
         else
-            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getData(type);
+            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getData(type, from, to);
         transactionAdapter = new TransactionAdapter(transactionDataList, this, transactionActivity);
         progressBar.setVisibility(View.GONE);
         recyclerView.setAdapter(transactionAdapter);
@@ -105,14 +107,15 @@ public class TransactionFragment extends Fragment implements ListClickListener {
 
     public void fetchLatestTransactions(String strDate) {
         String latestDate = "";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = null;
         try {
-            Date date = dateFormat.parse(strDate);
-            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-            latestDate = formatter.format(date);
+            date = sdf.parse(strDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        latestDate = formatter.format(date);
         String url = Constants.API_URL + "/api/GetTransactions?date=" + latestDate;
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(transactionActivity.getApplicationContext());
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -123,13 +126,20 @@ public class TransactionFragment extends Fragment implements ListClickListener {
                     TransactionData transactionData = new TransactionData();
                     try {
                         JSONObject transaction = response.getJSONObject(i);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        Date date = null;
+                        try {
+                            date = sdf.parse(transaction.getString("TimeStamp"));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                         transactionData.setTxnId(transaction.getString("TransactionID"));
                         transactionData.setCardId(transaction.getString("CardID"));
                         transactionData.setUserID(transaction.getString("Username"));
                         transactionData.setCardName(transaction.getString("CardType"));
                         transactionData.setCardAmount(transaction.getInt("Amount"));
                         transactionData.setCardStatus(transaction.getInt("Status"));
-                        transactionData.setCardTimeStamp(transaction.getString("TimeStamp"));
+                        transactionData.setCardTimeStamp(date.getTime());
                         transactionData.setCardRemarks(transaction.getString("Remarks"));
                         transactionData.setTxnType(transaction.getString("Type"));
                         transactionData.setVehicleNumber(transaction.getString("VehicleNumber"));

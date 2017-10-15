@@ -56,4 +56,7 @@
     <string name="reward_points_text">इनाम अंक - ₹</string>
     <string name="balance_text">बैलेंस - ₹</string>
     <string name="card_balance_text">कार्ड बैलेंस - ₹</string>
+    <string name="from_date">FROM</string>
+    <string name="_date">TO</string>
+    <string name="filter">FILTER</string>
 </resources>
