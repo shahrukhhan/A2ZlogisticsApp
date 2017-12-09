@@ -122,7 +122,8 @@
         android:layout_marginStart="54dp"
         app:backgroundTint="@color/appThemeBlue"
         android:theme="@style/AppTheme"
-        android:inputType="number" />
+        android:inputType="number"
+        android:maxLength="9"/>
 
     <LinearLayout
         android:layout_width="match_parent"

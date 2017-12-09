@@ -49,6 +49,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginStart="72dp"
         android:inputType="number"
+        android:maxLength="9"
         app:backgroundTint="@color/appThemeBlue"
         android:theme="@style/AppTheme"/>
 
