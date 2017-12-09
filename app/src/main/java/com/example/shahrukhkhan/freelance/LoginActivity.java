@@ -45,10 +45,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.US);
         Date testDate = null;
         try {
             testDate = sdf.parse(preferences.getString(Constants.TOKEN_EXPIRY, ""));
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 logout();
             } else {
                 if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
-                    setLocale("");
+                    setLocale("en");
                 else
                     setLocale("hi");
                 Intent intent = new Intent(this, MainActivity.class);

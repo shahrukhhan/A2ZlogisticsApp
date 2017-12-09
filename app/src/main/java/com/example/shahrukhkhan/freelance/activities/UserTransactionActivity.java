@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -64,9 +63,8 @@ public class UserTransactionActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private UserTransactionAdapter userTransactionAdapter;
-    private TextView addPayment;
+    private TextView addPayment, noUserTransText;
     private AppCompatEditText fromDate, toDate;
-    private AppCompatButton filterButton;
     public int dateType;
     private final static int TYPE_FROM = 0;
     private final static int TYPE_TO = 1;
@@ -78,6 +76,7 @@ public class UserTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_transaction);
         addPayment = findViewById(R.id.add_payment);
+        noUserTransText = findViewById(R.id.no_user_trans_text);
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,7 +84,6 @@ public class UserTransactionActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.user_progress_bar);
         fromDate = findViewById(R.id.from_user_date);
         toDate = findViewById(R.id.to_user_date);
-        filterButton = findViewById(R.id.user_filter_button);
         fromDate.setFocusable(false);
         toDate.setFocusable(false);
         recyclerView = findViewById(R.id.transaction_recycler_view);
@@ -137,12 +135,6 @@ public class UserTransactionActivity extends AppCompatActivity {
             }
         });
 
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateList();
-            }
-        });
         fetchUserTransactions();
     }
 
@@ -150,6 +142,12 @@ public class UserTransactionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 
     @Override
@@ -198,18 +196,23 @@ public class UserTransactionActivity extends AppCompatActivity {
                         }
                         userTransactionData.setUserTxnDesc(transaction.getString("AdminDescription"));
                         userTransactionData.setUserTxnDate(date.getTime());
-                        userTransactionData.setUserTxnAmt(transaction.getInt("Amount"));
+                        userTransactionData.setUserTxnAmt(Float.parseFloat(transaction.getString("Amount")));
                         userTransactionDataList.add(userTransactionData);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 newList.addAll(userTransactionDataList);
+                if (newList.isEmpty())
+                    noUserTransText.setVisibility(View.VISIBLE);
+                else
+                    noUserTransText.setVisibility(View.GONE);
                 userTransactionAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                noUserTransText.setVisibility(View.VISIBLE);
                 if (error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.network_error),
@@ -262,12 +265,15 @@ public class UserTransactionActivity extends AppCompatActivity {
     }
 
     public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener {
+            implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
+
+        UserTransactionActivity activity;
 
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
+            activity = (UserTransactionActivity) getActivity();
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -290,7 +296,6 @@ public class UserTransactionActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             String date = day + "/" + (month + 1) + "/" + year;
-            UserTransactionActivity activity = (UserTransactionActivity) getActivity();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
             Date cal = null;
@@ -307,6 +312,12 @@ public class UserTransactionActivity extends AppCompatActivity {
         @Override
         public void onCancel(DialogInterface dialog) {
 
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            super.onDismiss(dialog);
+            activity.updateList();
         }
     }
 
@@ -343,6 +354,10 @@ public class UserTransactionActivity extends AppCompatActivity {
             if (data.getUserTxnDate() >= fromDate && data.getUserTxnDate() <= toDate)
                 newList.add(data);
         }
+        if(newList.isEmpty())
+            noUserTransText.setVisibility(View.VISIBLE);
+        else
+            noUserTransText.setVisibility(View.GONE);
         userTransactionAdapter.notifyDataSetChanged();
     }
 }

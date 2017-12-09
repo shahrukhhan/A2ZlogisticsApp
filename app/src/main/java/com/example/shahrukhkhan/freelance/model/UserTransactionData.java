@@ -8,7 +8,7 @@ public class UserTransactionData {
     private String userTxnId;
     private String userTxnDesc;
     private long userTxnDate;
-    private int userTxnAmt;
+    private float userTxnAmt;
 
     public String getUserTxnId() {
         return userTxnId;
@@ -34,11 +34,11 @@ public class UserTransactionData {
         this.userTxnDate = userTxnDate;
     }
 
-    public int getUserTxnAmt() {
+    public float getUserTxnAmt() {
         return userTxnAmt;
     }
 
-    public void setUserTxnAmt(int userTxnAmt) {
+    public void setUserTxnAmt(float userTxnAmt) {
         this.userTxnAmt = userTxnAmt;
     }
 }

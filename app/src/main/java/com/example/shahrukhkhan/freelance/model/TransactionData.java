@@ -14,7 +14,8 @@ public class TransactionData {
     private String cardType;
     private String txnType;
     private String vehicleNumber;
-    private int cardAmount, cardStatus;
+    private int cardStatus;
+    private float cardAmount;
 
     public void setTxnId(String txnId) {
         this.txnId = txnId;
@@ -56,11 +57,11 @@ public class TransactionData {
         return cardType;
     }
 
-    public void setCardAmount(int cardAmount) {
+    public void setCardAmount(float cardAmount) {
         this.cardAmount = cardAmount;
     }
 
-    public int getCardAmount() {
+    public float getCardAmount() {
         return cardAmount;
     }
 

@@ -51,12 +51,17 @@
     <string name="change_password">पासवर्ड बदलें</string>
     <string name="title_activity_transaction_">Transaction_Activity</string>
 
-    <string name="vehicle_text">वाहन - </string>
+    <string name="vehicle_text">वाहन -  </string>
     <string name="main_balance_text">मुख्य बैलेंस - ₹</string>
     <string name="reward_points_text">इनाम अंक - ₹</string>
-    <string name="balance_text">बैलेंस - ₹</string>
+    <string name="balance_text">बैलेंस -  ₹</string>
     <string name="card_balance_text">कार्ड बैलेंस - ₹</string>
     <string name="from_date">FROM</string>
     <string name="_date">TO</string>
     <string name="filter">FILTER</string>
+    <string name="all">सब</string>
+    <string name="paid">भुगतान</string>
+    <string name="recharged">रिचार्ज</string>
+    <string name="the_transactions_list_is_empty">लेनदेन सूची खाली है।</string>
+    <string name="no_cards">नए कार्ड जोड़ने के लिए सहायता टीम से संपर्क करे।</string>
 </resources>

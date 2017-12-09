@@ -37,4 +37,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
+    <TextView
+        android:id="@+id/no_cards_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_cards"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
 </FrameLayout>

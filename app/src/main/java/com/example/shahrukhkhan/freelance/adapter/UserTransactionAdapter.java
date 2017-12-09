@@ -14,6 +14,7 @@ import com.example.shahrukhkhan.freelance.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Shahrukh Khan on 9/27/2017.
@@ -61,7 +62,7 @@ public class UserTransactionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         MyViewHolder myViewHolder = (MyViewHolder) holder;
         UserTransactionData userTransactionData = userTransactionDataList.get(position);
         myViewHolder.transactionListHolder.txnStatus.setVisibility(View.GONE);
-        String amount = Constants.RS + userTransactionData.getUserTxnAmt();
+        String amount = Constants.RS + String.format(Locale.US, "%.2f", userTransactionData.getUserTxnAmt());
         Date testDate = new Date(userTransactionData.getUserTxnDate());
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
         String newFormat = formatter.format(testDate);

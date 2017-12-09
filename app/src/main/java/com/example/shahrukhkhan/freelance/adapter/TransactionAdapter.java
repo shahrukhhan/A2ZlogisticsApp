@@ -17,6 +17,7 @@ import com.example.shahrukhkhan.freelance.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Shahrukh Khan on 8/19/2017.
@@ -89,12 +90,16 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             myViewHolder.transactionListHolder.txnStatus.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFA500")));
         }
         String amount;
-        if (transactionData.getTxnType().equals("Credit"))
-            amount = "+ " + Constants.RS + transactionData.getCardAmount();
-        else
-            amount = "- " + Constants.RS + transactionData.getCardAmount();
+        String remarks;
+        if (transactionData.getTxnType().equals("Credit")) {
+            amount = "+ " + Constants.RS + String.format(Locale.US, "%.2f", transactionData.getCardAmount());
+            remarks = "Remarks: " + transactionData.getCardRemarks();
+        } else {
+            amount = "- " + Constants.RS + String.format(Locale.US, "%.2f", transactionData.getCardAmount());
+            String[] info = transactionData.getCardRemarks().split(",");
+            remarks = "Product: " + info[0] + "\nVolume: " + info[1] + " litres" + "\nRate: ₹" + info[2];
+        }
         String name = transactionData.getCardName() + " - " + transactionData.getCardId();
-        String remarks = "Remarks: " + transactionData.getCardRemarks();
         String id = "Txn Id: " + transactionData.getTxnId();
         Date testDate = new Date(transactionData.getCardTimeStamp());
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");

@@ -79,7 +79,7 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
                 Toast.makeText(c.getApplicationContext(), "Invalid Request", Toast.LENGTH_SHORT).show();
             } else {
                 int requestAmount = Integer.parseInt(amount.getText().toString());
-                if (requestAmount > preferences.getInt(Constants.ACCOUNT_BALANCE, -1)) {
+                if (requestAmount > preferences.getFloat(Constants.ACCOUNT_BALANCE, -1)) {
                     Toast.makeText(c.getApplicationContext(), "Not enough balance to make this request", Toast.LENGTH_SHORT).show();
                 } else {
                     save.setEnabled(false);
@@ -106,7 +106,7 @@ public class RechargeDialogClass extends Dialog implements View.OnClickListener 
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    editor.putInt(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
+                    editor.putFloat(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

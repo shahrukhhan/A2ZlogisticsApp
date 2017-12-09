@@ -16,6 +16,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/transaction_item" />
 
+    <TextView
+        android:id="@+id/no_trans_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/the_transactions_list_is_empty"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:visibility="gone"/>
+
     <ProgressBar
         android:id="@+id/frag_progress_bar"
         android:layout_width="wrap_content"

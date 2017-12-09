@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -45,6 +46,7 @@ public class CardActivity extends AppCompatActivity {
     private List<CardData> cardDataList = new ArrayList<>();
     private CardsAdapter adapter;
     private GridView gridview;
+    private TextView noCardsText;
     private ProgressBar progressBar;
     private int activityType;
 
@@ -56,6 +58,7 @@ public class CardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        noCardsText = findViewById(R.id.no_cards_text);
         gridview = findViewById(R.id.grid_view);
         progressBar = findViewById(R.id.card_progress_bar);
         gridview.setVisibility(View.INVISIBLE);
@@ -125,6 +128,7 @@ public class CardActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                noCardsText.setVisibility(View.VISIBLE);
                 if (error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.network_error),
@@ -176,6 +180,10 @@ public class CardActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        if(cardDataList.isEmpty())
+            noCardsText.setVisibility(View.VISIBLE);
+        else
+            noCardsText.setVisibility(View.GONE);
         adapter = new CardsAdapter(CardActivity.this, cardDataList, activityType);
         gridview.setAdapter(adapter);
     }

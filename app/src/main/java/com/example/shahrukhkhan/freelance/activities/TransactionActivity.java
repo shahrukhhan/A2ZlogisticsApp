@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -38,6 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class TransactionActivity extends AppCompatActivity {
 
@@ -47,7 +47,6 @@ public class TransactionActivity extends AppCompatActivity {
     private TransactionFragment transactionFragmentRecharged;
     private TextView cardUsageText, cardUsageBalance;
     public AppCompatEditText fromDate, toDate;
-    public AppCompatButton filterButton;
     public String name, number, vehicle;
     public int activityType, balance, dateType;
     private final static int TYPE_FROM = 0;
@@ -76,7 +75,6 @@ public class TransactionActivity extends AppCompatActivity {
         toDate.setFocusable(false);
         cardUsageText = findViewById(R.id.card_usage_text);
         cardUsageBalance = findViewById(R.id.txn_card_balance);
-        filterButton = findViewById(R.id.filter_button);
         init();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -125,18 +123,6 @@ public class TransactionActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
 
-            }
-        });
-
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pageNum == 0)
-                    transactionFragmentAll.populateList();
-                else if (pageNum == 1)
-                    transactionFragmentPaid.populateList();
-                else if (pageNum == 2)
-                    transactionFragmentRecharged.populateList();
             }
         });
 
@@ -239,11 +225,11 @@ public class TransactionActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "ALL";
+                    return getResources().getString(R.string.all);
                 case 1:
-                    return "PAID";
+                    return getResources().getString(R.string.paid);
                 case 2:
-                    return "RECHARGED";
+                    return getResources().getString(R.string.recharged);
             }
             return null;
         }
@@ -265,16 +251,40 @@ public class TransactionActivity extends AppCompatActivity {
     }
 
     public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener {
+            implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
+
+        TransactionActivity activity;
+        String calDate;
 
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Locale locale = Locale.getDefault();
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+            activity = (TransactionActivity) getActivity();
+            if(activity.dateType == TYPE_FROM)
+                calDate = activity.fromDate.getText().toString();
+            else
+                calDate = activity.toDate.getText().toString();
+            Date sdfDate = null;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+            try {
+                sdfDate = dateFormat.parse(calDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int year, month, day;
+            if(calDate.equals("")) {
+                final Calendar c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+            } else {
+                year = Integer.parseInt(new SimpleDateFormat("yyyy").format(sdfDate));
+                month = Integer.parseInt(new SimpleDateFormat("MM").format(sdfDate));
+                month -= 1;
+                day = Integer.parseInt(new SimpleDateFormat("dd").format(sdfDate));
+            }
             long minDate = System.currentTimeMillis();
             // Create a new instance of DatePickerDialog and return it
             try {
@@ -288,15 +298,15 @@ public class TransactionActivity extends AppCompatActivity {
             DatePickerDialog datePicker = new DatePickerDialog(getActivity(), this, year, month, day);
             datePicker.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePicker.getDatePicker().setMinDate(minDate);
+            datePicker.updateDate(year, month, day);
             return datePicker;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             String date = day + "/" + (month + 1) + "/" + year;
-            TransactionActivity activity = (TransactionActivity) getActivity();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-            Date cal = null;
+            Date cal;
             String dispDate = null;
             try {
                 cal = sdf.parse(date);
@@ -309,7 +319,13 @@ public class TransactionActivity extends AppCompatActivity {
 
         @Override
         public void onCancel(DialogInterface dialog) {
+            super.onCancel(dialog);
+        }
 
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            super.onDismiss(dialog);
+            activity.updateDate();
         }
     }
 
@@ -319,5 +335,14 @@ public class TransactionActivity extends AppCompatActivity {
         } else {
             toDate.setText(date);
         }
+    }
+
+    public void updateDate() {
+        if (transactionFragmentAll != null)
+            transactionFragmentAll.populateList();
+        if (transactionFragmentPaid != null)
+            transactionFragmentPaid.populateList();
+        if (transactionFragmentRecharged != null)
+            transactionFragmentRecharged.populateList();
     }
 }

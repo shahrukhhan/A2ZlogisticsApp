@@ -65,34 +65,47 @@ public class CustomDialogClass extends Dialog implements View.OnClickListener {
             SharedPreferences.Editor editor = prefs.edit();
             int id = radioGroup.getCheckedRadioButtonId();
             radioButton = findViewById(id);
-            editor.putString(Constants.LANGUAGE, radioButton.getText().toString());
-            editor.apply();
-            if (radioButton.getText().toString().equals("English")) {
-                setLocale("");
+            if (radioButton.getText().toString().equals(prefs.getString(Constants.LANGUAGE, ""))) {
+                if (c.getComponentName().getShortClassName().equals(".LoginActivity")) {
+                    Intent intent = new Intent(c, MainActivity.class);
+                    c.startActivity(intent);
+                    dismiss();
+                    c.finish();
+                } else {
+                    dismiss();
+                }
             } else {
-                setLocale("hi");
-            }
-            if (c.getComponentName().getShortClassName().equals(".LoginActivity")) {
-                Intent intent = new Intent(c, MainActivity.class);
-                c.startActivity(intent);
-                dismiss();
-                c.finish();
-            } else {
-                Intent intent = new Intent(c, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                c.startActivity(intent);
-                dismiss();
+                editor.putString(Constants.LANGUAGE, radioButton.getText().toString());
+                editor.apply();
+                if (radioButton.getText().toString().equals("English")) {
+                    setLocale("en");
+                } else {
+                    setLocale("hi");
+                }
+                if (c.getComponentName().getShortClassName().equals(".LoginActivity")) {
+                    Intent intent = new Intent(c, MainActivity.class);
+                    c.startActivity(intent);
+                    dismiss();
+                    c.finish();
+                } else {
+                    Intent intent = new Intent(c, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    c.startActivity(intent);
+                    dismiss();
+                }
             }
         }
     }
 
     private void setLocale(String lang) {
+        Locale locale1 = Locale.getDefault();
         myLocale = new Locale(lang);
         Resources res = c.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+        Locale locale = Locale.getDefault();
         c.startActivity(c.getIntent());
     }
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +48,7 @@ public class TransactionFragment extends Fragment implements ListClickListener {
     private List<TransactionData> transactionDataList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private TextView noTransText;
     TransactionAdapter transactionAdapter;
     TransactionActivity transactionActivity;
     private int type;
@@ -74,13 +76,14 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         Bundle args = getArguments();
         type = args.getInt("type");
         transactionActivity = (TransactionActivity) getActivity();
+        noTransText = view.findViewById(R.id.no_trans_text);
         recyclerView = view.findViewById(R.id.transaction_recycler_view);
         progressBar = view.findViewById(R.id.frag_progress_bar);
         progressBar.setVisibility(View.VISIBLE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(transactionActivity, LinearLayoutManager.VERTICAL));
         if (isCreated <= 1) {
             isCreated += 1;
             String date = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getLatestTransactionDate();
@@ -96,9 +99,13 @@ public class TransactionFragment extends Fragment implements ListClickListener {
         String from = transactionActivity.fromDate.getText().toString();
         String to = transactionActivity.toDate.getText().toString();
         if (transactionActivity.activityType == R.id.cards_usage_icon)
-            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getCardData(transactionActivity.number, type, from, to);
+            transactionDataList = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getCardData(transactionActivity.number, type, from, to);
         else
-            transactionDataList = LocalDB.getmInstance(getActivity().getApplicationContext()).getData(type, from, to);
+            transactionDataList = LocalDB.getmInstance(transactionActivity.getApplicationContext()).getData(type, from, to);
+        if(transactionDataList.isEmpty())
+            noTransText.setVisibility(View.VISIBLE);
+        else
+            noTransText.setVisibility(View.GONE);
         transactionAdapter = new TransactionAdapter(transactionDataList, this, transactionActivity);
         progressBar.setVisibility(View.GONE);
         recyclerView.setAdapter(transactionAdapter);

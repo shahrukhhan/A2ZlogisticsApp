@@ -67,15 +67,6 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/filter_button"
-            android:layout_width="72dp"
-            android:layout_height="36dp"
-            android:background="@drawable/mybutton"
-            android:text="@string/filter"
-            android:layout_gravity="end"
-            android:layout_margin="8dp" />
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"

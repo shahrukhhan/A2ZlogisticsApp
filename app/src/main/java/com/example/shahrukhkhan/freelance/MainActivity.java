@@ -136,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
                 gridLayout.setVisibility(View.VISIBLE);
                 linearLayout.setVisibility(View.VISIBLE);
                 try {
-                    String balance = getResources().getString(R.string.main_balance_text) + response.getInt("Balance");
-                    String discount = getResources().getString(R.string.reward_points_text) + response.getInt("Discount");
+                    String balance = getResources().getString(R.string.main_balance_text) + String.format(Locale.US, "%.2f", response.getDouble("Balance"));
+                    String discount = getResources().getString(R.string.reward_points_text) + String.format(Locale.US, "%.2f", response.getDouble("Discount"));
                     mainBalance.setText(balance);
                     rewardPoints.setText(discount);
-                    editor.putInt(Constants.ACCOUNT_BALANCE, response.getInt("Balance"));
+                    editor.putFloat(Constants.ACCOUNT_BALANCE, (Float.parseFloat(response.getString("Balance"))));
                     editor.putString(Constants.NAME, response.getString("Name"));
                     editor.apply();
                 } catch (JSONException e) {
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CALL_PHONE: {
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED ||
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED ||
                         grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:+917891088099"));

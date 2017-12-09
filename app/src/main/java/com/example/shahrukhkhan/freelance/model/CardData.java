@@ -6,14 +6,15 @@ package com.example.shahrukhkhan.freelance.model;
 
 public class CardData {
     private String cardName, cardId, vehicleNumber;
-    private int cardBalance, cardStatus;
+    private int cardStatus;
+    private float cardBalance;
     private boolean fabStatus;
 
-    public void setCardBalance(int cardBalance) {
+    public void setCardBalance(float cardBalance) {
         this.cardBalance = cardBalance;
     }
 
-    public int getCardBalance() {
+    public float getCardBalance() {
         return cardBalance;
     }
 

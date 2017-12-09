@@ -13,6 +13,7 @@ import com.example.shahrukhkhan.freelance.interfaces.ListClickListener;
 import com.example.shahrukhkhan.freelance.model.CardData;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Shahrukh Khan on 9/19/2017.
@@ -69,7 +70,8 @@ public class CardsAdapter extends BaseAdapter {
         }
         String name = cardList.get(i).getCardName() + " - " + cardList.get(i).getCardId();
         String vehicle = context.getResources().getString(R.string.vehicle_text) + cardList.get(i).getVehicleNumber();
-        String balance = context.getResources().getString(R.string.balance_text) + cardList.get(i).getCardBalance();
+        String balance = context.getResources().getString(R.string.balance_text) +
+                String.format(Locale.US, "%.2f", cardList.get(i).getCardBalance());
         cardListHolder.cardName.setText(name);
         cardListHolder.vehicleNumber.setText(vehicle);
         cardListHolder.cardBalance.setText(balance);
