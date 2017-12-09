@@ -32,6 +32,7 @@ import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.fragments.TransactionFragment;
 import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyContextWrapper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,7 +53,6 @@ public class TransactionActivity extends AppCompatActivity {
     public float balance;
     private final static int TYPE_FROM = 0;
     private final static int TYPE_TO = 1;
-    private static int pageNum;
 
     private ViewPager mViewPager;
 
@@ -110,23 +110,13 @@ public class TransactionActivity extends AppCompatActivity {
             }
         });
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                pageNum = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase.getApplicationContext());
+        Locale languageType = new Locale(prefs.getString(Constants.LANGUAGE, "en"));
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, languageType));
     }
 
     public void init() {

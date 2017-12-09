@@ -41,6 +41,7 @@ import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PaymentDialogClass;
 import com.example.shahrukhkhan.freelance.model.UserTransactionData;
 import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyContextWrapper;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONArray;
@@ -54,6 +55,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class UserTransactionActivity extends AppCompatActivity {
@@ -136,6 +138,13 @@ public class UserTransactionActivity extends AppCompatActivity {
         });
 
         fetchUserTransactions();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase.getApplicationContext());
+        Locale languageType = new Locale(prefs.getString(Constants.LANGUAGE, "en"));
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, languageType));
     }
 
     @Override

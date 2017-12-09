@@ -1,11 +1,10 @@
 package com.example.shahrukhkhan.freelance;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -13,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +33,7 @@ import com.example.shahrukhkhan.freelance.database.LocalDB;
 import com.example.shahrukhkhan.freelance.dialogs.CustomDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyContextWrapper;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONException;
@@ -49,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView mainBalance, rewardPoints;
-    private Locale myLocale;
-    private SharedPreferences preferences;
     private static final int PERMISSIONS_REQUEST_CALL_PHONE = 101;
     private LinearLayout linearLayout;
     private GridLayout gridLayout;
@@ -60,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
-            setLocale("");
-        else
-            setLocale("hi");
         toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -77,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         mainBalance = findViewById(R.id.main_balance);
         rewardPoints = findViewById(R.id.reward_points);
         fetchUser();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase.getApplicationContext());
+        Locale languageType = new Locale(prefs.getString(Constants.LANGUAGE, "en"));
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, languageType));
     }
 
     @Override
@@ -216,15 +215,6 @@ public class MainActivity extends AppCompatActivity {
     public void openUserTransactionView(View v) {
         Intent intent = new Intent(this, UserTransactionActivity.class);
         startActivity(intent);
-    }
-
-    private void setLocale(String lang) {
-        myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
     }
 
     @Override

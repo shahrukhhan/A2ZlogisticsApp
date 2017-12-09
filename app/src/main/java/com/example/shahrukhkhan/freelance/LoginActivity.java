@@ -2,12 +2,9 @@ package com.example.shahrukhkhan.freelance;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,10 +55,6 @@ public class LoginActivity extends AppCompatActivity {
             if (testDate.compareTo(new Date()) < 0) {
                 logout();
             } else {
-                if (preferences.getString(Constants.LANGUAGE, "").equals("English"))
-                    setLocale("en");
-                else
-                    setLocale("hi");
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -164,15 +157,6 @@ public class LoginActivity extends AppCompatActivity {
         CustomDialogClass dialogClass = new CustomDialogClass(LoginActivity.this);
         dialogClass.setCanceledOnTouchOutside(false);
         dialogClass.show();
-    }
-
-    private void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
     }
 
     private void logout() {

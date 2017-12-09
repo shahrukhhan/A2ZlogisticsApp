@@ -1,5 +1,6 @@
 package com.example.shahrukhkhan.freelance.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.example.shahrukhkhan.freelance.dialogs.PasswordDialogClass;
 import com.example.shahrukhkhan.freelance.dialogs.RechargeDialogClass;
 import com.example.shahrukhkhan.freelance.model.CardData;
 import com.example.shahrukhkhan.freelance.utils.Constants;
+import com.example.shahrukhkhan.freelance.utils.MyContextWrapper;
 import com.example.shahrukhkhan.freelance.utils.MyVolley;
 
 import org.json.JSONArray;
@@ -39,6 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CardActivity extends AppCompatActivity {
@@ -83,6 +86,13 @@ public class CardActivity extends AppCompatActivity {
             }
         });
         fetchCards();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase.getApplicationContext());
+        Locale languageType = new Locale(prefs.getString(Constants.LANGUAGE, "en"));
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, languageType));
     }
 
     @Override
