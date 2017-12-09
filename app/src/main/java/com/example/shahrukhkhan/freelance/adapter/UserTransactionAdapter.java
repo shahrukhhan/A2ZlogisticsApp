@@ -66,7 +66,7 @@ public class UserTransactionAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Date testDate = new Date(userTransactionData.getUserTxnDate());
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
         String newFormat = formatter.format(testDate);
-        myViewHolder.transactionListHolder.txnCardName.setText(userTransactionData.getUserTxnDesc());
+        myViewHolder.transactionListHolder.txnCardName.setText(userTransactionData.getUserTxnDesc().toUpperCase());
         myViewHolder.transactionListHolder.txnCardId.setVisibility(View.GONE);
         myViewHolder.transactionListHolder.txnCardDate.setText(newFormat);
         myViewHolder.transactionListHolder.txnCardAmount.setText(amount);

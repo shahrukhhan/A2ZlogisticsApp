@@ -48,7 +48,8 @@ public class TransactionActivity extends AppCompatActivity {
     private TextView cardUsageText, cardUsageBalance;
     public AppCompatEditText fromDate, toDate;
     public String name, number, vehicle;
-    public int activityType, balance, dateType;
+    public int activityType, dateType;
+    public float balance;
     private final static int TYPE_FROM = 0;
     private final static int TYPE_TO = 1;
     private static int pageNum;
@@ -67,7 +68,7 @@ public class TransactionActivity extends AppCompatActivity {
         name = intent.getStringExtra("name");
         number = intent.getStringExtra("number");
         vehicle = intent.getStringExtra("vehicle");
-        balance = intent.getIntExtra("balance", 0);
+        balance = intent.getFloatExtra("balance", 0.0f);
         activityType = intent.getIntExtra(Constants.ACTIVITY_ID, 0);
         fromDate = findViewById(R.id.from_trans_date);
         toDate = findViewById(R.id.to_trans_date);
@@ -133,7 +134,7 @@ public class TransactionActivity extends AppCompatActivity {
             cardUsageText.setVisibility(View.VISIBLE);
             cardUsageBalance.setVisibility(View.VISIBLE);
             String text = name + " - " + number + " | " + vehicle;
-            String bal = getResources().getString(R.string.card_balance_text) + balance;
+            String bal = getResources().getString(R.string.card_balance_text) + String.format(Locale.US, "%.2f", balance);
             cardUsageText.setText(text);
             cardUsageBalance.setText(bal);
         } else {
@@ -262,7 +263,7 @@ public class TransactionActivity extends AppCompatActivity {
             Locale locale = Locale.getDefault();
             // Use the current date as the default date in the picker
             activity = (TransactionActivity) getActivity();
-            if(activity.dateType == TYPE_FROM)
+            if (activity.dateType == TYPE_FROM)
                 calDate = activity.fromDate.getText().toString();
             else
                 calDate = activity.toDate.getText().toString();
@@ -274,7 +275,7 @@ public class TransactionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             int year, month, day;
-            if(calDate.equals("")) {
+            if (calDate.equals("")) {
                 final Calendar c = Calendar.getInstance();
                 year = c.get(Calendar.YEAR);
                 month = c.get(Calendar.MONTH);
