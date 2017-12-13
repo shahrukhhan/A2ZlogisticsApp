@@ -59,7 +59,7 @@ public class CustomDialogClass extends Dialog implements View.OnClickListener {
             SharedPreferences.Editor editor = prefs.edit();
             int id = radioGroup.getCheckedRadioButtonId();
             radioButton = findViewById(id);
-            if (radioButton.getText().toString().substring(0, 1).equals(prefs.getString(Constants.LANGUAGE, ""))) {
+            if (radioButton.getTag().toString().equals(prefs.getString(Constants.LANGUAGE, ""))) {
                 if (c.getComponentName().getShortClassName().equals(".LoginActivity")) {
                     Intent intent = new Intent(c, MainActivity.class);
                     c.startActivity(intent);
@@ -69,11 +69,7 @@ public class CustomDialogClass extends Dialog implements View.OnClickListener {
                     dismiss();
                 }
             } else {
-                if (radioButton.getText().toString().equals("English"))
-                    editor.putString(Constants.LANGUAGE, "en");
-                else {
-                    editor.putString(Constants.LANGUAGE, "hi");
-                }
+                editor.putString(Constants.LANGUAGE, radioButton.getTag().toString());
                 editor.apply();
                 if (c.getComponentName().getShortClassName().equals(".LoginActivity")) {
                     Intent intent = new Intent(c, MainActivity.class);

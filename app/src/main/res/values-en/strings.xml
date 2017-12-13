@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">A2Z Logistics</string>
+    <string name="app_name">LogisA2Z</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -54,8 +54,8 @@
     <string name="title_activity_transaction_">Transaction_Activity</string>
 
     <string name="vehicle_text">Vehicle -  </string>
-    <string name="main_balance_text">Main Balance - ₹</string>
-    <string name="reward_points_text">Reward Points - ₹</string>
+    <string name="main_balance_text">Main Balance\n₹</string>
+    <string name="reward_points_text">Reward Points\n₹</string>
     <string name="balance_text">Balance -  ₹</string>
     <string name="card_balance_text">Card Balance - ₹</string>
     <string name="from_date">FROM</string>

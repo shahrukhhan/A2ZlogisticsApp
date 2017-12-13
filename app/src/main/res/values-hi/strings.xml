@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">A2Z Logistics</string>
+    <string name="app_name">LogisA2Z</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -52,8 +52,8 @@
     <string name="title_activity_transaction_">Transaction_Activity</string>
 
     <string name="vehicle_text">वाहन -  </string>
-    <string name="main_balance_text">मुख्य बैलेंस - ₹</string>
-    <string name="reward_points_text">इनाम अंक - ₹</string>
+    <string name="main_balance_text">मुख्य बैलेंस\n₹</string>
+    <string name="reward_points_text">इनाम अंक\n₹</string>
     <string name="balance_text">बैलेंस -  ₹</string>
     <string name="card_balance_text">कार्ड बैलेंस - ₹</string>
     <string name="from_date">FROM</string>
