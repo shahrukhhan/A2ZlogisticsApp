@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    tools:context="com.example.shahrukhkhan.freelance.activities.TransactionActivity">
+    tools:context="com.a2zlogistics.logisa2z.a2zapp.activities.TransactionActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

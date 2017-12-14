@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:197664403511:android:126df133c1561e5a",
         "android_client_info": {
-          "package_name": "com.example.shahrukhkhan.freelance"
+          "package_name": "com.a2zlogistics.logisa2z.a2zapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "197664403511-79qgua0le33eosep32pc6l3bljivojb8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.shahrukhkhan.freelance",
+            "package_name": "com.a2zlogistics.logisa2z.a2zapp",
             "certificate_hash": "669a2e01a1c6cec6facce8a06dea07ec57816735"
           }
         },

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.shahrukhkhan.freelance">
+    package="com.a2zlogistics.logisa2z.a2zapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name="com.a2zlogistics.logisa2z.a2zapp.LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateVisible">
@@ -27,31 +27,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.a2zlogistics.logisa2z.a2zapp.MainActivity"
             android:configChanges="locale"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.CardActivity"
+            android:name="com.a2zlogistics.logisa2z.a2zapp.activities.CardActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.a2zlogistics.logisa2z.a2zapp.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.TransactionActivity"
+            android:name="com.a2zlogistics.logisa2z.a2zapp.activities.TransactionActivity"
             android:configChanges="locale"
             android:label="@string/title_activity_transaction_"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.UserTransactionActivity"
+            android:name="com.a2zlogistics.logisa2z.a2zapp.activities.UserTransactionActivity"
             android:configChanges="locale"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.a2zlogistics.logisa2z.a2zapp.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

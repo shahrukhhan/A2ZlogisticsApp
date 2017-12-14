@@ -40,6 +40,7 @@
     <string name="amount">रकम</string>
     <string name="mode">प्रकार</string>
     <string name="description">विवरण</string>
+    <string name="description_hint">Bank - Acc. No.</string>
     <string name="change_password_header">पासवर्ड बदलें</string>
     <string name="current_password">वर्तमान पासवर्ड</string>
     <string name="new_password">नया पासवर्ड</string>
