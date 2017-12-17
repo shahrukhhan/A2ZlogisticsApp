@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -114,14 +115,14 @@ public class TransactionFragment extends Fragment implements ListClickListener {
 
     public void fetchLatestTransactions(String strDate) {
         String latestDate = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
         Date date = null;
         try {
             date = sdf.parse(strDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
         latestDate = formatter.format(date);
         String url = Constants.API_URL + "/api/GetTransactions?date=" + latestDate;
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(transactionActivity.getApplicationContext());

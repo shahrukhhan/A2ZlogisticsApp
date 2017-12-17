@@ -51,6 +51,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             transactionListHolder.txnCardAmount = view.findViewById(R.id.txn_amount);
             transactionListHolder.txnId = view.findViewById(R.id.txn_id);
             transactionListHolder.txnRemarks = view.findViewById(R.id.txn_remarks);
+            transactionListHolder.txnRemarks2 = view.findViewById(R.id.txn_remarks2);
             view.setOnClickListener(this);
         }
 
@@ -91,18 +92,24 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         String amount;
         String remarks;
+        String remarks2 = "";
         if (transactionData.getTxnType().equals("Credit")) {
             amount = "+ " + Constants.RS + String.format(Locale.US, "%.2f", transactionData.getCardAmount());
             remarks = "Remarks: " + transactionData.getCardRemarks();
         } else {
             amount = "- " + Constants.RS + String.format(Locale.US, "%.2f", transactionData.getCardAmount());
             String[] info = transactionData.getCardRemarks().split(",");
-            remarks = "Product: " + info[0] + "\nVolume: " + info[1] + " litres" + "\nRate: ₹" + info[2];
+            if(info.length == 3) {
+                remarks = "Product: " + info[0] + "\nVolume: " + info[1] + " litres" + "\nRate: ₹" + info[2];
+            } else {
+                remarks = "Product: " + info[0] + "\nLocation: " + info[3];
+                remarks2 = "Volume: " + info[1] + " litres" + "\nRate: ₹" + info[2];
+            }
         }
         String name = transactionData.getCardName() + " - " + transactionData.getCardId();
         String id = "Txn Id: " + transactionData.getTxnId();
         Date testDate = new Date(transactionData.getCardTimeStamp());
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
         String newFormat = formatter.format(testDate);
         myViewHolder.transactionListHolder.txnCardName.setText(name);
         myViewHolder.transactionListHolder.txnCardId.setText(transactionData.getVehicleNumber());
@@ -110,12 +117,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         myViewHolder.transactionListHolder.txnCardAmount.setText(amount);
         myViewHolder.transactionListHolder.txnId.setText(id);
         myViewHolder.transactionListHolder.txnRemarks.setText(remarks);
+        myViewHolder.transactionListHolder.txnRemarks2.setText(remarks2);
         if (position == expandPos) {
             myViewHolder.transactionListHolder.txnId.setVisibility(View.VISIBLE);
             myViewHolder.transactionListHolder.txnRemarks.setVisibility(View.VISIBLE);
+            myViewHolder.transactionListHolder.txnRemarks2.setVisibility(View.VISIBLE);
         } else {
             myViewHolder.transactionListHolder.txnId.setVisibility(View.GONE);
             myViewHolder.transactionListHolder.txnRemarks.setVisibility(View.GONE);
+            myViewHolder.transactionListHolder.txnRemarks2.setVisibility(View.GONE);
         }
     }
 
@@ -125,6 +135,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private static class TransactionListHolder {
-        TextView txnCardName, txnCardId, txnCardDate, txnCardAmount, txnId, txnRemarks, txnStatus;
+        TextView txnCardName, txnCardId, txnCardDate, txnCardAmount, txnId, txnRemarks, txnStatus, txnRemarks2;
     }
 }
