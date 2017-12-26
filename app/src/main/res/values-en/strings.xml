@@ -64,4 +64,6 @@
     <string name="recharged">RECHARGED</string>
     <string name="the_transactions_list_is_empty">The transactions list is empty.</string>
     <string name="no_cards">Contact support team to add new cards.</string>
+    <string name="reward_points">Reward Points</string>
+    <string name="discount_list_empty">The discount list is empty</string>
 </resources>

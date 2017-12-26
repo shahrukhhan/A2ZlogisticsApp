@@ -26,23 +26,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a2zlogistics.logisa2z.a2zapp.LoginActivity;
+import com.a2zlogistics.logisa2z.a2zapp.R;
+import com.a2zlogistics.logisa2z.a2zapp.adapter.DiscountAdapter;
+import com.a2zlogistics.logisa2z.a2zapp.database.LocalDB;
+import com.a2zlogistics.logisa2z.a2zapp.dialogs.CustomDialogClass;
+import com.a2zlogistics.logisa2z.a2zapp.dialogs.PasswordDialogClass;
+import com.a2zlogistics.logisa2z.a2zapp.model.DiscountData;
+import com.a2zlogistics.logisa2z.a2zapp.utils.Constants;
+import com.a2zlogistics.logisa2z.a2zapp.utils.MyContextWrapper;
+import com.a2zlogistics.logisa2z.a2zapp.utils.MyVolley;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.a2zlogistics.logisa2z.a2zapp.LoginActivity;
-import com.a2zlogistics.logisa2z.a2zapp.R;
-import com.a2zlogistics.logisa2z.a2zapp.adapter.UserTransactionAdapter;
-import com.a2zlogistics.logisa2z.a2zapp.database.LocalDB;
-import com.a2zlogistics.logisa2z.a2zapp.dialogs.CustomDialogClass;
-import com.a2zlogistics.logisa2z.a2zapp.dialogs.PasswordDialogClass;
-import com.a2zlogistics.logisa2z.a2zapp.dialogs.PaymentDialogClass;
-import com.a2zlogistics.logisa2z.a2zapp.model.UserTransactionData;
-import com.a2zlogistics.logisa2z.a2zapp.utils.Constants;
-import com.a2zlogistics.logisa2z.a2zapp.utils.MyContextWrapper;
-import com.a2zlogistics.logisa2z.a2zapp.utils.MyVolley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,14 +57,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class UserTransactionActivity extends AppCompatActivity {
+public class DiscountActivity extends AppCompatActivity {
 
-    private List<UserTransactionData> userTransactionDataList = new ArrayList<>();
-    private List<UserTransactionData> newList = new ArrayList<>();
+    private List<DiscountData> discountDataList = new ArrayList<>();
+    private List<DiscountData> newList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private UserTransactionAdapter userTransactionAdapter;
-    private TextView addPayment, noUserTransText;
+    private DiscountAdapter discountAdapter;
+    private TextView noDiscountTransText;
     private AppCompatEditText fromDate, toDate;
     public int dateType;
     private final static int TYPE_FROM = 0;
@@ -76,44 +75,34 @@ public class UserTransactionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_transaction);
-        addPayment = findViewById(R.id.add_payment);
-        noUserTransText = findViewById(R.id.no_user_trans_text);
+        setContentView(R.layout.activity_discount);
+        noDiscountTransText = findViewById(R.id.no_discount_trans_text);
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        progressBar = findViewById(R.id.user_progress_bar);
-        fromDate = findViewById(R.id.from_user_date);
-        toDate = findViewById(R.id.to_user_date);
+        progressBar = findViewById(R.id.discount_progress_bar);
+        fromDate = findViewById(R.id.from_discount_date);
+        toDate = findViewById(R.id.to_discount_date);
         fromDate.setFocusable(false);
         toDate.setFocusable(false);
-        recyclerView = findViewById(R.id.transaction_recycler_view);
+        recyclerView = findViewById(R.id.discount_recycler_view);
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        userTransactionAdapter = new UserTransactionAdapter(newList, UserTransactionActivity.this);
-        recyclerView.setAdapter(userTransactionAdapter);
+        discountAdapter = new DiscountAdapter(newList, DiscountActivity.this);
+        recyclerView.setAdapter(discountAdapter);
 
         String str = "01/09/2017";
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy", Locale.US);
         try {
             initialDate = sdf.parse(str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        addPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PaymentDialogClass paymentDialogClass = new PaymentDialogClass(UserTransactionActivity.this);
-                paymentDialogClass.setCanceledOnTouchOutside(false);
-                paymentDialogClass.show();
-            }
-        });
 
         fromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +110,7 @@ public class UserTransactionActivity extends AppCompatActivity {
                 InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.hideSoftInputFromWindow(fromDate.getWindowToken(), 0);
                 dateType = TYPE_FROM;
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DiscountActivity.DatePickerFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
@@ -132,14 +121,13 @@ public class UserTransactionActivity extends AppCompatActivity {
                 InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.hideSoftInputFromWindow(toDate.getWindowToken(), 0);
                 dateType = TYPE_TO;
-                DialogFragment newFragment = new DatePickerFragment();
+                DialogFragment newFragment = new DiscountActivity.DatePickerFragment();
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
 
-        fetchUserTransactions();
+        fetchDiscountTransactions();
     }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(newBase.getApplicationContext());
@@ -172,7 +160,7 @@ public class UserTransactionActivity extends AppCompatActivity {
                 dialogClass.show();
                 break;
             case R.id.change_password:
-                PasswordDialogClass passwordDialogClass = new PasswordDialogClass(UserTransactionActivity.this);
+                PasswordDialogClass passwordDialogClass = new PasswordDialogClass(DiscountActivity.this);
                 passwordDialogClass.setCanceledOnTouchOutside(false);
                 passwordDialogClass.show();
                 break;
@@ -183,9 +171,9 @@ public class UserTransactionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void fetchUserTransactions() {
-        userTransactionDataList.clear();
-        String url = Constants.API_URL + "/api/GetUserTransactions";
+    public void fetchDiscountTransactions() {
+        discountDataList.clear();
+        String url = Constants.API_URL + "/api/GetDiscountTransactions";
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
@@ -193,30 +181,33 @@ public class UserTransactionActivity extends AppCompatActivity {
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 for (int i = 0; i < response.length(); i++) {
-                    UserTransactionData userTransactionData = new UserTransactionData();
+                    DiscountData discountData = new DiscountData();
                     try {
-                        JSONObject transaction = response.getJSONObject(i);
+                        JSONObject discount = response.getJSONObject(i);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                         Date date = null;
                         try {
-                            date = sdf.parse(transaction.getString("TimeStamp"));
+                            date = sdf.parse(discount.getString("TimeStamp"));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        userTransactionData.setUserTxnDesc(transaction.getString("AdminDescription"));
-                        userTransactionData.setUserTxnDate(date.getTime());
-                        userTransactionData.setUserTxnAmt(Float.parseFloat(transaction.getString("Amount")));
-                        userTransactionDataList.add(userTransactionData);
+                        discountData.setCardId(discount.getString("CardType") + " - " + discount.getString("CardID"));
+                        discountData.setAmount(Float.parseFloat(discount.getString("Amount")));
+                        discountData.setDiscountId(discount.getString("DiscountID"));
+                        discountData.setDiscountAmount(Float.parseFloat(discount.getString("DiscountAmount")));
+                        discountData.setDiscountPercent(Float.parseFloat(discount.getString("DiscountPercent")));
+                        discountData.setTimeStamp(date.getTime());
+                        discountDataList.add(discountData);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                newList.addAll(userTransactionDataList);
+                newList.addAll(discountDataList);
                 if (newList.isEmpty())
-                    noUserTransText.setVisibility(View.VISIBLE);
+                    noDiscountTransText.setVisibility(View.VISIBLE);
                 else
-                    noUserTransText.setVisibility(View.GONE);
-                userTransactionAdapter.notifyDataSetChanged();
+                    noDiscountTransText.setVisibility(View.GONE);
+                discountAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -275,13 +266,13 @@ public class UserTransactionActivity extends AppCompatActivity {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
-        UserTransactionActivity activity;
+        DiscountActivity activity;
 
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-            activity = (UserTransactionActivity) getActivity();
+            activity = (DiscountActivity) getActivity();
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -358,14 +349,14 @@ public class UserTransactionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         newList.clear();
-        for (UserTransactionData data : userTransactionDataList) {
-            if (data.getUserTxnDate() >= fromDate && data.getUserTxnDate() <= toDate)
+        for (DiscountData data : discountDataList) {
+            if (data.getTimeStamp() >= fromDate && data.getTimeStamp() <= toDate)
                 newList.add(data);
         }
         if(newList.isEmpty())
-            noUserTransText.setVisibility(View.VISIBLE);
+            noDiscountTransText.setVisibility(View.VISIBLE);
         else
-            noUserTransText.setVisibility(View.GONE);
-        userTransactionAdapter.notifyDataSetChanged();
+            noDiscountTransText.setVisibility(View.GONE);
+        discountAdapter.notifyDataSetChanged();
     }
 }

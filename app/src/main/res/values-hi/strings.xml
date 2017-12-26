@@ -65,4 +65,6 @@
     <string name="recharged">रिचार्ज</string>
     <string name="the_transactions_list_is_empty">लेनदेन सूची खाली है।</string>
     <string name="no_cards">नए कार्ड जोड़ने के लिए सहायता टीम से संपर्क करे।</string>
+    <string name="reward_points">इनाम अंक</string>
+    <string name="discount_list_empty">इनाम अंक सूची खाली है</string>
 </resources>

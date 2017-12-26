@@ -138,7 +138,6 @@ public class CardActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                noCardsText.setVisibility(View.VISIBLE);
                 if (error instanceof NoConnectionError) {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.network_error),

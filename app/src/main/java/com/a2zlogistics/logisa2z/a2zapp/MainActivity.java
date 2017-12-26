@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.a2zlogistics.logisa2z.a2zapp.activities.DiscountActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
@@ -214,6 +215,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openUserTransactionView(View v) {
         Intent intent = new Intent(this, UserTransactionActivity.class);
+        startActivity(intent);
+    }
+
+    public void openDiscountView(View v) {
+        Intent intent = new Intent(this, DiscountActivity.class);
         startActivity(intent);
     }
 
